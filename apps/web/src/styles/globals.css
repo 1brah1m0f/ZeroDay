@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Inter font ─────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@layer base {
+  :root {
+    --background: 250 250 249;
+    --foreground: 28 25 23;
+    --card: 255 255 255;
+    --muted: 245 245 244;
+    --muted-foreground: 120 113 108;
+    --border: 231 229 228;
+    --ring: 13 148 136;
+    --radius: 12px;
+  }
+
+  * {
+    @apply border-stone-200;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-surface-50 font-sans text-stone-800 antialiased;
+  }
+
+  /* Focus visible for keyboard nav */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary-500;
+  }
+}
+
+@layer components {
+  /* ─── Skeleton loader ─────────────────────────────────────── */
+  .skeleton {
+    @apply relative overflow-hidden rounded-xl bg-stone-100;
+  }
+  .skeleton::after {
+    content: '';
+    @apply absolute inset-0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite linear;
+  }
+
+  /* ─── Card base ────────────────────────────────────────────── */
+  .card {
+    @apply rounded-2xl border border-stone-200/60 bg-white shadow-card transition-all duration-200;
+  }
+  .card-interactive {
+    @apply card cursor-pointer hover:shadow-card-hover hover:-translate-y-0.5 active:translate-y-0 active:shadow-card;
+  }
+
+  /* ─── Badge/Tag pills ──────────────────────────────────────── */
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium;
+  }
+  .badge-primary {
+    @apply badge bg-primary-50 text-primary-700;
+  }
+  .badge-accent {
+    @apply badge bg-accent-50 text-accent-700;
+  }
+  .badge-neutral {
+    @apply badge bg-stone-100 text-stone-600;
+  }
+  .badge-success {
+    @apply badge bg-success-50 text-green-700;
+  }
+  .badge-warning {
+    @apply badge bg-warning-50 text-amber-700;
+  }
+
+  /* ─── Section spacing ──────────────────────────────────────── */
+  .section {
+    @apply py-16 md:py-24;
+  }
+  .container-app {
+    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  /* ─── Stagger animation for lists ──────────────────────────── */
+  .stagger > * {
+    @apply animate-fade-up;
+    animation-fill-mode: both;
+  }
+  .stagger > *:nth-child(1) { animation-delay: 0ms; }
+  .stagger > *:nth-child(2) { animation-delay: 60ms; }
+  .stagger > *:nth-child(3) { animation-delay: 120ms; }
+  .stagger > *:nth-child(4) { animation-delay: 180ms; }
+  .stagger > *:nth-child(5) { animation-delay: 240ms; }
+  .stagger > *:nth-child(6) { animation-delay: 300ms; }
+  .stagger > *:nth-child(7) { animation-delay: 360ms; }
+  .stagger > *:nth-child(8) { animation-delay: 420ms; }
+  .stagger > *:nth-child(9) { animation-delay: 480ms; }
+  .stagger > *:nth-child(10) { animation-delay: 540ms; }
+}
+

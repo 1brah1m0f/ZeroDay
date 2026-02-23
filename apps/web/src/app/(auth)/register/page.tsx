@@ -1,0 +1,140 @@
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { RegisterSchema, type RegisterDto } from '@kutlewe/shared';
+import { api } from '@/lib/api';
+import { useAuthStore } from '@/lib/store';
+import { Button } from '@/components/Button';
+import { Input } from '@/components/Input';
+
+export default function RegisterPage() {
+  const router = useRouter();
+  const { setAuth } = useAuthStore();
+  const [error, setError] = useState('');
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<RegisterDto>({
+    resolver: zodResolver(RegisterSchema),
+  });
+
+  const onSubmit = async (data: RegisterDto) => {
+    try {
+      setError('');
+      const res = await api.post('/auth/register', data);
+      setAuth(res.data.user, res.data.accessToken, res.data.refreshToken);
+      router.push('/dashboard');
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'Xəta baş verdi');
+    }
+  };
+
+  return (
+    <div className="animate-fade-up">
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold text-stone-800">Hesab yarat</h1>
+        <p className="mt-1 text-sm text-stone-500">Pulsuz qeydiyyatdan keç və icma ilə birləş.</p>
+      </div>
+
+      {error && (
+        <div className="mb-5 flex items-center gap-2 rounded-xl bg-red-50 border border-red-200/60 p-3.5 text-sm text-red-700">
+          <svg className="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          {error}
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Input
+            label="İstifadəçi adı"
+            placeholder="ali_mammadov"
+            error={errors.username?.message}
+            leftIcon={
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+            }
+            {...register('username')}
+          />
+          <Input
+            label="Ad Soyad"
+            placeholder="Əli Məmmədov"
+            error={errors.displayName?.message}
+            leftIcon={
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            }
+            {...register('displayName')}
+          />
+        </div>
+
+        <Input
+          label="Email"
+          type="email"
+          placeholder="email@example.com"
+          error={errors.email?.message}
+          leftIcon={
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+          }
+          {...register('email')}
+        />
+
+        <Input
+          label="Şifrə"
+          type="password"
+          placeholder="Min. 6 simvol"
+          error={errors.password?.message}
+          leftIcon={
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+          }
+          {...register('password')}
+        />
+
+        <p className="text-xs text-stone-400">
+          Qeydiyyatdan keçməklə <span className="text-primary-600 cursor-pointer hover:underline">İstifadə şərtləri</span> və{' '}
+          <span className="text-primary-600 cursor-pointer hover:underline">Gizlilik siyasəti</span> ilə razılaşırsınız.
+        </p>
+
+        <Button type="submit" isLoading={isSubmitting} variant="primary" size="lg" className="w-full">
+          Qeydiyyatdan keç
+        </Button>
+      </form>
+
+      <div className="mt-6 flex items-center gap-3">
+        <div className="h-px flex-1 bg-stone-200" />
+        <span className="text-xs text-stone-400">və ya</span>
+        <div className="h-px flex-1 bg-stone-200" />
+      </div>
+
+      <button className="mt-4 flex w-full items-center justify-center gap-2.5 rounded-xl border-2 border-stone-200 bg-white px-4 py-2.5 text-sm font-semibold text-stone-700 transition hover:bg-stone-50">
+        <svg className="h-4 w-4" viewBox="0 0 24 24">
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4" />
+          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
+          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
+        </svg>
+        Google ilə qeydiyyat
+      </button>
+
+      <p className="mt-6 text-center text-sm text-stone-500">
+        Artıq hesabınız var?{' '}
+        <Link href="/login" className="font-semibold text-primary-600 hover:text-primary-700 transition">
+          Daxil ol
+        </Link>
+      </p>
+    </div>
+  );
+}

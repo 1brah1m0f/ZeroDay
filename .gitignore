@@ -1,0 +1,58 @@
+# Dependencies
+node_modules
+
+# Build outputs
+.next
+dist
+build
+out
+
+# Environment files (NEVER commit these)
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+
+# Turbo cache
+.turbo
+
+# Test coverage
+coverage
+
+# Prisma generated client (auto-generated, not needed in repo)
+.prisma
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE files
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# Package manager locks (keep pnpm-lock.yaml, ignore others)
+yarn.lock
+package-lock.json
+
+# Prisma SQLite database (local dev only)
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+
+# Cloudinary and upload temp files
+uploads/
+tmp/
+
+# Next.js telemetry
+.next/cache
