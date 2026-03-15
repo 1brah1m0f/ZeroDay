@@ -5,6 +5,24 @@ import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { CommunitiesService } from './groups.service';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
+import {
+  CommunitiesQueryDto,
+  CommunityDetailsQueryDto,
+  CreateCommunityDto,
+  UpdateCommunityDto,
+  MembersQueryDto,
+  UpdateMemberRoleDto,
+  AnnouncementsQueryDto,
+  CreateAnnouncementDto,
+  CreateEventDto,
+  SearchInviteDto,
+  SendInvitationDto,
+  BulkInvitationsDto,
+  RespondInvitationDto,
+  CreateChannelDto,
+  ChannelMessagesQueryDto,
+  SendChannelMessageDto,
+} from './dto';
 
 @ApiTags('communities')
 @Controller('communities')
@@ -14,44 +32,34 @@ export class CommunitiesController {
   // ─── Community CRUD ──────────────────────────────────────────────────────
 
   @Get()
-  findAll(
-    @Query('page') page?: number,
-    @Query('limit') limit?: number,
-    @Query('q') q?: string,
-    @Query('type') type?: string,
-  ) {
-    return this.communitiesService.findAll({ page, limit, q, type });
+  findAll(@Query() query: CommunitiesQueryDto) {
+    return this.communitiesService.findAll(query);
   }
 
   @Get(':slug')
-  findBySlug(@Param('slug') slug: string, @Query('userId') userId?: string) {
-    return this.communitiesService.findBySlug(slug, userId);
+  findBySlug(@Param('slug') slug: string, @Query() query: CommunityDetailsQueryDto) {
+    return this.communitiesService.findBySlug(slug, query.userId);
   }
 
   @Post()
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  create(@CurrentUser('id') userId: string, @Body() dto: any) {
+  create(@CurrentUser('id') userId: string, @Body() dto: CreateCommunityDto) {
     return this.communitiesService.create(userId, dto);
   }
 
   @Put(':slug')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  update(@Param('slug') slug: string, @CurrentUser('id') userId: string, @Body() dto: any) {
+  update(@Param('slug') slug: string, @CurrentUser('id') userId: string, @Body() dto: UpdateCommunityDto) {
     return this.communitiesService.update(slug, userId, dto);
   }
 
   // ─── Membership ──────────────────────────────────────────────────────────
 
   @Get(':slug/members')
-  getMembers(
-    @Param('slug') slug: string,
-    @Query('page') page?: number,
-    @Query('limit') limit?: number,
-    @Query('role') role?: string,
-  ) {
-    return this.communitiesService.getMembers(slug, { page, limit, role });
+  getMembers(@Param('slug') slug: string, @Query() query: MembersQueryDto) {
+    return this.communitiesService.getMembers(slug, query);
   }
 
   @Post(':slug/join')
@@ -75,9 +83,9 @@ export class CommunitiesController {
     @Param('slug') slug: string,
     @CurrentUser('id') userId: string,
     @Param('targetUserId') targetUserId: string,
-    @Body('role') newRole: string,
+    @Body() dto: UpdateMemberRoleDto,
   ) {
-    return this.communitiesService.updateMemberRole(slug, userId, targetUserId, newRole);
+    return this.communitiesService.updateMemberRole(slug, userId, targetUserId, dto.role);
   }
 
   @Delete(':slug/members/:targetUserId')
@@ -94,18 +102,14 @@ export class CommunitiesController {
   // ─── Announcements ───────────────────────────────────────────────────────
 
   @Get(':slug/announcements')
-  getAnnouncements(
-    @Param('slug') slug: string,
-    @Query('page') page?: number,
-    @Query('limit') limit?: number,
-  ) {
-    return this.communitiesService.getAnnouncements(slug, { page, limit });
+  getAnnouncements(@Param('slug') slug: string, @Query() query: AnnouncementsQueryDto) {
+    return this.communitiesService.getAnnouncements(slug, query);
   }
 
   @Post(':slug/announcements')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  createAnnouncement(@Param('slug') slug: string, @CurrentUser('id') userId: string, @Body() dto: any) {
+  createAnnouncement(@Param('slug') slug: string, @CurrentUser('id') userId: string, @Body() dto: CreateAnnouncementDto) {
     return this.communitiesService.createAnnouncement(slug, userId, dto);
   }
 
@@ -130,7 +134,7 @@ export class CommunitiesController {
   @Post(':slug/events')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  createEvent(@Param('slug') slug: string, @CurrentUser('id') userId: string, @Body() dto: any) {
+  createEvent(@Param('slug') slug: string, @CurrentUser('id') userId: string, @Body() dto: CreateEventDto) {
     return this.communitiesService.createEvent(slug, userId, dto);
   }
 
@@ -149,7 +153,7 @@ export class CommunitiesController {
   searchUsersForInvite(
     @Param('slug') slug: string,
     @CurrentUser('id') userId: string,
-    @Body() filters: any,
+    @Body() filters: SearchInviteDto,
   ) {
     return this.communitiesService.searchUsersForInvite(slug, userId, filters);
   }
@@ -157,14 +161,14 @@ export class CommunitiesController {
   @Post(':slug/invite')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  sendInvitation(@Param('slug') slug: string, @CurrentUser('id') userId: string, @Body() dto: any) {
+  sendInvitation(@Param('slug') slug: string, @CurrentUser('id') userId: string, @Body() dto: SendInvitationDto) {
     return this.communitiesService.sendInvitation(slug, userId, dto);
   }
 
   @Post(':slug/invite/bulk')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  sendBulkInvitations(@Param('slug') slug: string, @CurrentUser('id') userId: string, @Body() dto: any) {
+  sendBulkInvitations(@Param('slug') slug: string, @CurrentUser('id') userId: string, @Body() dto: BulkInvitationsDto) {
     return this.communitiesService.sendBulkInvitations(slug, userId, dto);
   }
 
@@ -181,9 +185,9 @@ export class CommunitiesController {
   respondToInvitation(
     @Param('invitationId') invitationId: string,
     @CurrentUser('id') userId: string,
-    @Body('accept') accept: boolean,
+    @Body() dto: RespondInvitationDto,
   ) {
-    return this.communitiesService.respondToInvitation(invitationId, userId, accept);
+    return this.communitiesService.respondToInvitation(invitationId, userId, dto.accept);
   }
 
   // ─── Channels ─────────────────────────────────────────────────────────────
@@ -196,7 +200,7 @@ export class CommunitiesController {
   @Post(':slug/channels')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  createChannel(@Param('slug') slug: string, @CurrentUser('id') userId: string, @Body() dto: any) {
+  createChannel(@Param('slug') slug: string, @CurrentUser('id') userId: string, @Body() dto: CreateChannelDto) {
     return this.communitiesService.createChannel(slug, userId, dto);
   }
 
@@ -206,10 +210,9 @@ export class CommunitiesController {
   getChannelMessages(
     @Param('channelId') channelId: string,
     @CurrentUser('id') userId: string,
-    @Query('page') page?: number,
-    @Query('limit') limit?: number,
+    @Query() query: ChannelMessagesQueryDto,
   ) {
-    return this.communitiesService.getChannelMessages(channelId, userId, { page, limit });
+    return this.communitiesService.getChannelMessages(channelId, userId, query);
   }
 
   @Post('channels/:channelId/messages')
@@ -218,8 +221,8 @@ export class CommunitiesController {
   sendChannelMessage(
     @Param('channelId') channelId: string,
     @CurrentUser('id') userId: string,
-    @Body('body') body: string,
+    @Body() dto: SendChannelMessageDto,
   ) {
-    return this.communitiesService.sendChannelMessage(channelId, userId, body);
+    return this.communitiesService.sendChannelMessage(channelId, userId, dto.body);
   }
 }
