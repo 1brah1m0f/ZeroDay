@@ -5,6 +5,7 @@ import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { ForumService } from './forum.service';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
+import { TopicsQueryDto, CreateTopicDto, CreateCommentDto, VoteDto } from './dto';
 
 @ApiTags('forum')
 @Controller('forum')
@@ -12,13 +13,8 @@ export class ForumController {
   constructor(private readonly forumService: ForumService) {}
 
   @Get('topics')
-  findAllTopics(
-    @Query('page') page?: number,
-    @Query('limit') limit?: number,
-    @Query('q') q?: string,
-    @Query('tag') tag?: string,
-  ) {
-    return this.forumService.findAllTopics({ page, limit, q, tag });
+  findAllTopics(@Query() query: TopicsQueryDto) {
+    return this.forumService.findAllTopics(query);
   }
 
   @Get('topics/:slug')
@@ -29,7 +25,7 @@ export class ForumController {
   @Post('topics')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  createTopic(@CurrentUser('id') userId: string, @Body() dto: any) {
+  createTopic(@CurrentUser('id') userId: string, @Body() dto: CreateTopicDto) {
     return this.forumService.createTopic(userId, dto);
   }
 
@@ -39,7 +35,7 @@ export class ForumController {
   addComment(
     @CurrentUser('id') userId: string,
     @Param('id') topicId: string,
-    @Body() dto: any,
+    @Body() dto: CreateCommentDto,
   ) {
     return this.forumService.addComment(userId, topicId, dto);
   }
@@ -50,8 +46,8 @@ export class ForumController {
   vote(
     @CurrentUser('id') userId: string,
     @Param('id') topicId: string,
-    @Body('value') value: 1 | -1,
+    @Body() dto: VoteDto,
   ) {
-    return this.forumService.vote(userId, topicId, value);
+    return this.forumService.vote(userId, topicId, dto.value);
   }
 }
