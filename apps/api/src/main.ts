@@ -39,8 +39,8 @@ async function bootstrap() {
   // Swagger
   if (process.env.NODE_ENV !== 'production') {
     const config = new DocumentBuilder()
-      .setTitle('KütləWe API')
-      .setDescription('KütləWe platforma API sənədləri')
+      .setTitle('ComTech API')
+      .setDescription('ComTech platforma API sənədləri')
       .setVersion('1.0')
       .addBearerAuth()
       .build();

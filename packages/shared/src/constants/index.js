@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.WS_EVENTS = exports.PAGINATION_DEFAULTS = exports.GROUP_PRIVACY = exports.BADGE_TIERS = exports.LISTING_CATEGORIES = exports.APP_DESCRIPTION = exports.APP_NAME = void 0;
-exports.APP_NAME = 'KütləWe';
-exports.APP_DESCRIPTION = 'Azərbaycanlıların ictimai platforma';
+exports.APP_NAME = 'ComTech';
+exports.APP_DESCRIPTION = 'Azərbaycanlılar üçün ictimai platforma';
 exports.LISTING_CATEGORIES = [
     { value: 'VOLUNTEER', label: 'Könüllülük' },
     { value: 'EDUCATION', label: 'Təhsil' },
