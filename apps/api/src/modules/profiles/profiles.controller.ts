@@ -5,6 +5,7 @@ import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { ProfilesService } from './profiles.service';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
+import { UpdateProfileDto, CreateExperienceDto, UpdateExperienceDto } from './dto';
 
 @ApiTags('profiles')
 @Controller('profiles')
@@ -14,7 +15,7 @@ export class ProfilesController {
   constructor(private readonly profilesService: ProfilesService) {}
 
   @Put()
-  updateProfile(@CurrentUser('id') userId: string, @Body() dto: any) {
+  updateProfile(@CurrentUser('id') userId: string, @Body() dto: UpdateProfileDto) {
     return this.profilesService.updateProfile(userId, dto);
   }
 
@@ -24,7 +25,7 @@ export class ProfilesController {
   }
 
   @Post('experiences')
-  addExperience(@CurrentUser('id') userId: string, @Body() dto: any) {
+  addExperience(@CurrentUser('id') userId: string, @Body() dto: CreateExperienceDto) {
     return this.profilesService.addExperience(userId, dto);
   }
 
@@ -32,7 +33,7 @@ export class ProfilesController {
   updateExperience(
     @Param('id') id: string,
     @CurrentUser('id') userId: string,
-    @Body() dto: any,
+    @Body() dto: UpdateExperienceDto,
   ) {
     return this.profilesService.updateExperience(id, userId, dto);
   }
