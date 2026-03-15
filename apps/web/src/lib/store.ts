@@ -6,9 +6,12 @@ interface User {
   username: string;
   email: string;
   displayName: string;
-  avatarUrl?: string;
   bio?: string;
   role: string;
+  communities?: any[];
+  skills?: string[];
+  interests?: string[];
+  activityPoints?: number;
 }
 
 interface AuthState {

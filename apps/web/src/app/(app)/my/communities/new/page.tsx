@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import GroupForm from '@/features/groups/GroupForm';
+import CommunityForm from '@/features/communities/CommunityForm';
 
 export default function NewGroupPage() {
     const router = useRouter();
@@ -12,7 +12,7 @@ export default function NewGroupPage() {
                 <h1 className="text-2xl font-bold text-gray-900">Yeni Qrup</h1>
             </div>
             <div className="rounded-xl border bg-white p-6 shadow-sm">
-                <GroupForm onSuccess={() => router.push('/my/groups')} />
+                <CommunityForm onSuccess={() => router.push('/my/communities')} />
             </div>
         </div>
     );

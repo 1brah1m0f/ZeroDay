@@ -33,6 +33,7 @@ const tabs = [
   { key: 'experience', label: 'Təcrübə' },
   { key: 'education', label: 'Təhsil' },
   { key: 'volunteer', label: 'Könüllülük' },
+  { key: 'events', label: 'Tədbirlər' },
   { key: 'badges', label: 'Nişanlar' },
 ];
 
@@ -96,6 +97,8 @@ export default function PublicProfilePage() {
   const workExp = allExperiences.filter((e: any) => e.type === 'WORK' || !e.type || e.type === 'work');
   const eduExp = allExperiences.filter((e: any) => e.type === 'EDUCATION' || e.type === 'education');
   const volExp = allExperiences.filter((e: any) => e.type === 'VOLUNTEER' || e.type === 'volunteer');
+
+  const eventParticipations = profile.eventParticipations || [];
 
   const ExpCard = ({ exp }: { exp: any }) => (
     <div className="rounded-2xl border border-stone-200/60 bg-white p-5 shadow-card">
@@ -162,6 +165,28 @@ export default function PublicProfilePage() {
               <p className="mt-2 text-sm text-stone-600 leading-relaxed">{profile.bio}</p>
             )}
 
+            {/* Skills & Interests */}
+            {(profile.skills && profile.skills.length > 0) && (
+              <div className="mt-4">
+                <h4 className="text-xs font-semibold text-stone-500 uppercase tracking-wider mb-2">Bacarıqlar</h4>
+                <div className="flex flex-wrap gap-2">
+                  {profile.skills.map((skill: string) => (
+                    <Badge key={skill} variant="primary" size="sm">{skill}</Badge>
+                  ))}
+                </div>
+              </div>
+            )}
+            {(profile.interests && profile.interests.length > 0) && (
+              <div className="mt-3">
+                <h4 className="text-xs font-semibold text-stone-500 uppercase tracking-wider mb-2">Maraqlar</h4>
+                <div className="flex flex-wrap gap-2">
+                  {profile.interests.map((interest: string) => (
+                    <Badge key={interest} variant="neutral" size="sm">{interest}</Badge>
+                  ))}
+                </div>
+              </div>
+            )}
+
             <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-stone-500">
               {profile.location && (
                 <span className="flex items-center gap-1.5">
@@ -178,6 +203,11 @@ export default function PublicProfilePage() {
                 </svg>
                 {formatRelativeTime(profile.createdAt)} qoşulub
               </span>
+              {(profile.activityPoints > 0) && (
+                <span className="flex items-center gap-1.5 text-amber-600 font-medium bg-amber-50 px-2 py-0.5 rounded-full">
+                  ⭐ {profile.activityPoints} xal
+                </span>
+              )}
             </div>
 
             {/* Stats */}
@@ -187,8 +217,8 @@ export default function PublicProfilePage() {
                 <span className="ml-1 text-sm text-stone-500">elan</span>
               </div>
               <div>
-                <span className="text-lg font-bold text-stone-800">{profile.groups?.length || 0}</span>
-                <span className="ml-1 text-sm text-stone-500">qrup</span>
+                <span className="text-lg font-bold text-stone-800">{profile.communities?.length || 0}</span>
+                <span className="ml-1 text-sm text-stone-500">İcma</span>
               </div>
               <div>
                 <span className="text-lg font-bold text-stone-800">{allExperiences.length}</span>
@@ -285,6 +315,39 @@ export default function PublicProfilePage() {
               {volExp.length === 0 ? (
                 <EmptyState text="Bu istifadəçinin könüllülük fəaliyyəti əlavə edilməyib." />
               ) : volExp.map((exp: any) => <ExpCard key={exp.id} exp={exp} />)}
+            </div>
+          )}
+
+          {/* EVENTS */}
+          {activeTab === 'events' && (
+            <div className="space-y-4">
+              {eventParticipations.length === 0 ? (
+                <EmptyState text="Bu istifadəçi hələ heç bir tədbirdə iştirak etməyib." />
+              ) : eventParticipations.map((ep: any) => {
+                const event = ep.event;
+                return (
+                  <div key={ep.id} className="rounded-2xl border border-stone-200/60 bg-white p-5 shadow-card">
+                    <div className="flex items-start gap-4">
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-orange-50 text-xl">
+                        🎟️
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                           <Badge variant="warning" size="sm">{event.status === 'UPCOMING' ? 'Gözlənilir' : event.status === 'ONGOING' ? 'Davam edir' : 'Bitib'}</Badge>
+                           <span className="text-xs text-stone-500">{new Date(event.startDate).toLocaleDateString('az-AZ', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</span>
+                        </div>
+                        <h3 className="text-sm font-semibold text-stone-800">{event.title}</h3>
+                        <p className="mt-1 text-sm text-stone-500 line-clamp-2">{event.description}</p>
+                        {event.community && (
+                          <Link href={`/communities/${event.community.slug}`} className="mt-2 text-xs font-medium text-primary-600 hover:underline inline-block">
+                            {event.community.name} icması
+                          </Link>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           )}
 

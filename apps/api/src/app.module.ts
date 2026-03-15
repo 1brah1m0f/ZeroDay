@@ -7,7 +7,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { ProfilesModule } from './modules/profiles/profiles.module';
 import { ListingsModule } from './modules/listings/listings.module';
-import { GroupsModule } from './modules/groups/groups.module';
+import { CommunitiesModule } from './modules/groups/groups.module';
 import { ForumModule } from './modules/forum/forum.module';
 import { ChatModule } from './modules/chat/chat.module';
 import { BadgesModule } from './modules/badges/badges.module';
@@ -42,7 +42,7 @@ import { PrismaModule } from './prisma/prisma.module';
     UsersModule,
     ProfilesModule,
     ListingsModule,
-    GroupsModule,
+    CommunitiesModule,
     ForumModule,
     ChatModule,
     BadgesModule,

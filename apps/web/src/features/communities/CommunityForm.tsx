@@ -26,7 +26,7 @@ interface Props {
     onSuccess?: () => void;
 }
 
-export default function GroupForm({ onSuccess }: Props) {
+export default function CommunityForm({ onSuccess }: Props) {
     const { register, handleSubmit, formState: { errors, isSubmitting }, setError } = useForm<FormData>({
         resolver: zodResolver(schema),
         defaultValues: { privacy: 'PUBLIC' },
@@ -34,20 +34,20 @@ export default function GroupForm({ onSuccess }: Props) {
 
     const onSubmit = async (data: FormData) => {
         try {
-            await api.post('/groups', data);
+            await api.post('/communities', data);
             onSuccess?.();
         } catch {
-            setError('root', { message: 'Qrup yaradılarkən xəta baş verdi' });
+            setError('root', { message: 'İcma yaradılarkən xəta baş verdi' });
         }
     };
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            <Input label="Qrup Adı" {...register('name')} error={errors.name?.message} />
-            <Textarea label="Qrup Haqqında" rows={4} {...register('description')} error={errors.description?.message} />
+            <Input label="İcma Adı" {...register('name')} error={errors.name?.message} />
+            <Textarea label="İcma Haqqında" rows={4} {...register('description')} error={errors.description?.message} />
             <Select label="Məxfilik" options={privacyOptions} {...register('privacy')} error={errors.privacy?.message} />
             {errors.root && <p className="text-sm text-red-500">{errors.root.message}</p>}
-            <Button type="submit" className="w-full" isLoading={isSubmitting}>Qrup Yarat</Button>
+            <Button type="submit" className="w-full" isLoading={isSubmitting}>İcma Yarat</Button>
         </form>
     );
 }

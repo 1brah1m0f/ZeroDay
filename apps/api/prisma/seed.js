@@ -17,8 +17,14 @@ async function main() {
     await prisma.savedListing.deleteMany();
     await prisma.experience.deleteMany();
     await prisma.userBadge.deleteMany();
-    await prisma.groupMember.deleteMany();
-    await prisma.group.deleteMany();
+    await prisma.communityMember.deleteMany();
+    await prisma.channelMessage.deleteMany();
+    await prisma.channel.deleteMany();
+    await prisma.announcement.deleteMany();
+    await prisma.eventParticipation.deleteMany();
+    await prisma.event.deleteMany();
+    await prisma.invitation.deleteMany();
+    await prisma.community.deleteMany();
     await prisma.listing.deleteMany();
     await prisma.badge.deleteMany();
     await prisma.user.deleteMany();
@@ -116,43 +122,74 @@ async function main() {
     });
     console.log('✅ Müraciətlər və saxlanılanlar yaradıldı');
 
-    // ─── Groups ──────────────────────────────────────────
-    const g1 = await prisma.group.create({ data: { name: 'Azərbaycan Gənc Proqramçılar', slug: 'az-young-devs', description: 'Proqramlaşdırmanı sevən Azərbaycanlı gənclərin icması. Kod reviewlar, layihə müzakirələri, öyrənmə materialları.', privacy: 'PUBLIC', ownerId: kenan.id, tags: JSON.stringify(['proqramlaşdırma', 'texnologiya', 'gənclər']) } });
-    const g2 = await prisma.group.create({ data: { name: 'UX/UI Dizayn Cəmiyyəti', slug: 'ux-ui-dizayn', description: 'Azərbaycanda UX/UI dizaynerləri birləşdirən icma. Portfolio paylaşımı, case study müzakirəsi.', privacy: 'PUBLIC', ownerId: leyla.id, tags: JSON.stringify(['dizayn', 'figma', 'ux']) } });
-    const g3 = await prisma.group.create({ data: { name: 'Data Science AZ', slug: 'datascience-az', description: 'Azərbaycanda data science, ML, AI ilə maraqlanan mütəxəssislər üçün icma.', privacy: 'PUBLIC', ownerId: nigar.id, tags: JSON.stringify(['datascience', 'ml', 'ai']) } });
-    const g4 = await prisma.group.create({ data: { name: 'İT Karyera İnkişafı', slug: 'it-karyera', description: 'İT sahəsindəki karyeranızı inkişaf etdirmək üçün CV yoxlanışı, mock müsahib, job şərəfnamə.', privacy: 'PUBLIC', ownerId: orxan.id, tags: JSON.stringify(['karyera', 'cv', 'müsahib']) } });
-    const g5 = await prisma.group.create({ data: { name: 'Bakı Könüllüyər Şəbəkəsi', slug: 'baki-konulluler', description: 'Bakıda könüllülük aksiyaları, sosial layihələr, ictimai tədbirlər.', privacy: 'PUBLIC', ownerId: demo.id, tags: JSON.stringify(['könüllülük', 'Bakı', 'sosial']) } });
-    const g6 = await prisma.group.create({ data: { name: 'Azərbaycan Startup Ekosistemi', slug: 'az-startup', description: 'Startup qurmaq istəyənlər, investorlar, mentorlar bir yerdə. İdea paylaşın, tərəfdaş tapın.', privacy: 'PUBLIC', ownerId: kenan.id, tags: JSON.stringify(['startup', 'biznes', 'inovasiya']) } });
+    // ─── Communities ──────────────────────────────────────────
+    const g1 = await prisma.community.create({ data: { name: 'Azərbaycan Gənc Proqramçılar', slug: 'az-young-devs', description: 'Proqramlaşdırmanı sevən Azərbaycanlı gənclərin icması. Kod reviewlar, layihə müzakirələri, öyrənmə materialları.', type: 'TECH', privacy: 'PUBLIC', ownerId: kenan.id, tags: JSON.stringify(['proqramlaşdırma', 'texnologiya', 'gənclər']) } });
+    const g2 = await prisma.community.create({ data: { name: 'UX/UI Dizayn Cəmiyyəti', slug: 'ux-ui-dizayn', description: 'Azərbaycanda UX/UI dizaynerləri birləşdirən icma. Portfolio paylaşımı, case study müzakirəsi.', type: 'TECH', privacy: 'PUBLIC', ownerId: leyla.id, tags: JSON.stringify(['dizayn', 'figma', 'ux']) } });
+    const g3 = await prisma.community.create({ data: { name: 'Data Science AZ', slug: 'datascience-az', description: 'Azərbaycanda data science, ML, AI ilə maraqlanan mütəxəssislər üçün icma.', type: 'TECH', privacy: 'PUBLIC', ownerId: nigar.id, tags: JSON.stringify(['datascience', 'ml', 'ai']) } });
+    const g4 = await prisma.community.create({ data: { name: 'İT Karyera İnkişafı', slug: 'it-karyera', description: 'İT sahəsindəki karyeranızı inkişaf etdirmək üçün CV yoxlanışı, mock müsahib, job şərəfnamə.', type: 'EDUCATION', privacy: 'PUBLIC', ownerId: orxan.id, tags: JSON.stringify(['karyera', 'cv', 'müsahib']) } });
+    const g5 = await prisma.community.create({ data: { name: 'Bakı Könüllüyər Şəbəkəsi', slug: 'baki-konulluler', description: 'Bakıda könüllülük aksiyaları, sosial layihələr, ictimai tədbirlər.', type: 'NONPROFIT', privacy: 'PUBLIC', ownerId: demo.id, tags: JSON.stringify(['könüllülük', 'Bakı', 'sosial']) } });
+    const g6 = await prisma.community.create({ data: { name: 'Azərbaycan Startup Ekosistemi', slug: 'az-startup', description: 'Startup qurmaq istəyənlər, investorlar, mentorlar bir yerdə. İdea paylaşın, tərəfdaş tapın.', type: 'BUSINESS', privacy: 'PUBLIC', ownerId: kenan.id, tags: JSON.stringify(['startup', 'biznes', 'inovasiya']) } });
 
-    await prisma.groupMember.createMany({
+    await prisma.communityMember.createMany({
         data: [
-            { userId: kenan.id, groupId: g1.id, role: 'OWNER' },
-            { userId: leyla.id, groupId: g1.id, role: 'MEMBER' },
-            { userId: orxan.id, groupId: g1.id, role: 'MEMBER' },
-            { userId: demo.id, groupId: g1.id, role: 'MEMBER' },
-            { userId: nigar.id, groupId: g1.id, role: 'MEMBER' },
-            { userId: leyla.id, groupId: g2.id, role: 'OWNER' },
-            { userId: kenan.id, groupId: g2.id, role: 'MEMBER' },
-            { userId: demo.id, groupId: g2.id, role: 'MEMBER' },
-            { userId: nigar.id, groupId: g3.id, role: 'OWNER' },
-            { userId: orxan.id, groupId: g3.id, role: 'MEMBER' },
-            { userId: demo.id, groupId: g3.id, role: 'MEMBER' },
-            { userId: kenan.id, groupId: g3.id, role: 'MEMBER' },
-            { userId: orxan.id, groupId: g4.id, role: 'OWNER' },
-            { userId: leyla.id, groupId: g4.id, role: 'MEMBER' },
-            { userId: demo.id, groupId: g4.id, role: 'MEMBER' },
-            { userId: nigar.id, groupId: g4.id, role: 'MEMBER' },
-            { userId: demo.id, groupId: g5.id, role: 'OWNER' },
-            { userId: kenan.id, groupId: g5.id, role: 'MEMBER' },
-            { userId: leyla.id, groupId: g5.id, role: 'MEMBER' },
-            { userId: nigar.id, groupId: g5.id, role: 'MEMBER' },
-            { userId: orxan.id, groupId: g5.id, role: 'MEMBER' },
-            { userId: kenan.id, groupId: g6.id, role: 'OWNER' },
-            { userId: nigar.id, groupId: g6.id, role: 'MEMBER' },
-            { userId: demo.id, groupId: g6.id, role: 'MEMBER' },
+            { userId: kenan.id, communityId: g1.id, role: 'OWNER' },
+            { userId: leyla.id, communityId: g1.id, role: 'MEMBER' },
+            { userId: orxan.id, communityId: g1.id, role: 'MEMBER' },
+            { userId: demo.id, communityId: g1.id, role: 'MEMBER' },
+            { userId: nigar.id, communityId: g1.id, role: 'MEMBER' },
+            { userId: leyla.id, communityId: g2.id, role: 'OWNER' },
+            { userId: kenan.id, communityId: g2.id, role: 'MEMBER' },
+            { userId: demo.id, communityId: g2.id, role: 'MEMBER' },
+            { userId: nigar.id, communityId: g3.id, role: 'OWNER' },
+            { userId: orxan.id, communityId: g3.id, role: 'MEMBER' },
+            { userId: demo.id, communityId: g3.id, role: 'MEMBER' },
+            { userId: kenan.id, communityId: g3.id, role: 'MEMBER' },
+            { userId: orxan.id, communityId: g4.id, role: 'OWNER' },
+            { userId: leyla.id, communityId: g4.id, role: 'MEMBER' },
+            { userId: demo.id, communityId: g4.id, role: 'MEMBER' },
+            { userId: nigar.id, communityId: g4.id, role: 'MEMBER' },
+            { userId: demo.id, communityId: g5.id, role: 'OWNER' },
+            { userId: kenan.id, communityId: g5.id, role: 'MEMBER' },
+            { userId: leyla.id, communityId: g5.id, role: 'MEMBER' },
+            { userId: nigar.id, communityId: g5.id, role: 'MEMBER' },
+            { userId: orxan.id, communityId: g5.id, role: 'MEMBER' },
+            { userId: kenan.id, communityId: g6.id, role: 'OWNER' },
+            { userId: nigar.id, communityId: g6.id, role: 'MEMBER' },
+            { userId: demo.id, communityId: g6.id, role: 'MEMBER' },
         ]
     });
-    console.log('✅ 6 qrup yaradıldı');
+    
+    // Add default channels for ALL communities
+    await prisma.channel.createMany({
+        data: [
+            // g1 - Azərbaycan Gənc Proqramçılar
+            { name: 'Ümumi', slug: 'umumi', type: 'TEXT', isDefault: true, category: 'Ümumi', communityId: g1.id },
+            { name: 'Elanlar', slug: 'elanlar', type: 'ANNOUNCEMENT', category: 'Ümumi', communityId: g1.id },
+            { name: 'Yardım', slug: 'yardim', type: 'TEXT', category: 'Dəstək', communityId: g1.id },
+            // g2 - UX/UI Dizayn Cəmiyyəti
+            { name: 'Ümumi', slug: 'umumi', type: 'TEXT', isDefault: true, category: 'Ümumi', communityId: g2.id },
+            { name: 'Elanlar', slug: 'elanlar', type: 'ANNOUNCEMENT', category: 'Ümumi', communityId: g2.id },
+            { name: 'Portfolio', slug: 'portfolio', type: 'TEXT', category: 'Müzakirə', communityId: g2.id },
+            // g3 - Data Science AZ
+            { name: 'Ümumi', slug: 'umumi', type: 'TEXT', isDefault: true, category: 'Ümumi', communityId: g3.id },
+            { name: 'Elanlar', slug: 'elanlar', type: 'ANNOUNCEMENT', category: 'Ümumi', communityId: g3.id },
+            { name: 'ML Müzakirə', slug: 'ml-muzakire', type: 'TEXT', category: 'Müzakirə', communityId: g3.id },
+            // g4 - İT Karyera İnkişafı
+            { name: 'Ümumi', slug: 'umumi', type: 'TEXT', isDefault: true, category: 'Ümumi', communityId: g4.id },
+            { name: 'Elanlar', slug: 'elanlar', type: 'ANNOUNCEMENT', category: 'Ümumi', communityId: g4.id },
+            { name: 'CV Review', slug: 'cv-review', type: 'TEXT', category: 'Dəstək', communityId: g4.id },
+            // g5 - Bakı Könüllüyər Şəbəkəsi
+            { name: 'Ümumi', slug: 'umumi', type: 'TEXT', isDefault: true, category: 'Ümumi', communityId: g5.id },
+            { name: 'Elanlar', slug: 'elanlar', type: 'ANNOUNCEMENT', category: 'Ümumi', communityId: g5.id },
+            { name: 'Aksiyalar', slug: 'aksiyalar', type: 'TEXT', category: 'Müzakirə', communityId: g5.id },
+            // g6 - Azərbaycan Startup Ekosistemi
+            { name: 'Ümumi', slug: 'umumi', type: 'TEXT', isDefault: true, category: 'Ümumi', communityId: g6.id },
+            { name: 'Elanlar', slug: 'elanlar', type: 'ANNOUNCEMENT', category: 'Ümumi', communityId: g6.id },
+            { name: 'İdea Paylaş', slug: 'idea-paylas', type: 'TEXT', category: 'Müzakirə', communityId: g6.id },
+        ]
+    });
+    
+    console.log('✅ 6 icma və kanallar yaradıldı');
 
     // ─── Forum ──────────────────────────────────────────
     const t1 = await prisma.forumTopic.create({ data: { title: 'Azərbaycanda IT maaşları 2025 — Vəziyyət necədir?', slug: 'az-it-maaslar-2025', body: 'Salam, IT sahəsindəki maaş dinamikasını müzakirə edək. Junior developer kimi iş axtarıram, amma müxtəlif şirkətlərin təklifləri arasında böyük fərq var. Sizin təcrübəniz necədir?', tags: JSON.stringify(['karyera', 'maaş', 'it']), isPinned: true, authorId: kenan.id } });

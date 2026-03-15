@@ -3,13 +3,14 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { APP_NAME } from '@kutlewe/shared';
 
 const sidebarLinks = [
   { href: '/dashboard', label: 'Panel' },
   { href: '/my/listings', label: 'Elanlarım' },
-  { href: '/my/groups', label: 'Qruplarım' },
+  { href: '/my/communities', label: 'İcmalarım' },
+  { href: '/my/invitations', label: 'Dəvətlərim' },
   { href: '/my/applications', label: 'Müraciətlər' },
   { href: '/my/saved', label: 'Saxlanılanlar' },
   { href: '/chat', label: 'Mesajlar' },
@@ -20,21 +21,27 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const { user, accessToken, logout } = useAuthStore();
+  const [hydrated, setHydrated] = useState(false);
+
+  // Wait for Zustand to hydrate from localStorage before checking auth
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
 
   useEffect(() => {
-    if (!accessToken) {
+    if (hydrated && !accessToken) {
       router.push('/login');
     }
-  }, [accessToken, router]);
+  }, [hydrated, accessToken, router]);
 
-  if (!accessToken) return null;
+  if (!hydrated || !accessToken) return null;
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Top bar */}
       <header className="sticky top-0 z-50 border-b bg-white">
         <div className="container mx-auto flex h-14 items-center justify-between px-4">
-          <Link href="/" className="flex items-center gap-2">
+          <Link href="/dashboard" className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary-600 text-sm font-bold text-white">
               K
             </div>

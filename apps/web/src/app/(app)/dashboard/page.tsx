@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useAuthStore } from '@/lib/store';
+import { ImageUpload } from '@/components/ImageUpload';
 
 export default function DashboardPage() {
   const { user } = useAuthStore();
@@ -22,11 +23,11 @@ export default function DashboardPage() {
           <p className="mt-2 text-2xl font-bold text-gray-900">—</p>
         </Link>
         <Link
-          href="/my/groups"
+          href="/my/communities"
           className="rounded-xl border bg-white p-6 shadow-sm transition hover:shadow-md"
         >
-          <h3 className="text-sm font-medium text-gray-500">Qruplarım</h3>
-          <p className="mt-2 text-2xl font-bold text-gray-900">—</p>
+          <h3 className="text-sm font-medium text-gray-500">İcmalarım</h3>
+          <p className="mt-2 text-2xl font-bold text-gray-900">{user?.communities?.length || 0}</p>
         </Link>
         <Link
           href="/my/experiences"
@@ -69,10 +70,10 @@ export default function DashboardPage() {
               + Yeni elan yarat
             </Link>
             <Link
-              href="/my/groups"
+              href="/my/communities/new"
               className="block rounded-lg bg-primary-50 px-4 py-3 text-sm font-medium text-primary-700 hover:bg-primary-100"
             >
-              + Yeni qrup yarat
+              + Yeni icma yarat
             </Link>
             <Link
               href="/my/experiences"
@@ -81,6 +82,12 @@ export default function DashboardPage() {
               + Təcrübə əlavə et
             </Link>
           </div>
+        </div>
+
+        {/* Image Upload Area for Hackathon Testing */}
+        <div className="rounded-xl border bg-white p-6 shadow-sm">
+          <h2 className="mb-4 text-lg font-semibold text-gray-900">Şəkil Yükləmə (Test)</h2>
+          <ImageUpload onUploadSuccess={(urls) => console.log('Uploaded:', urls)} />
         </div>
       </div>
     </div>

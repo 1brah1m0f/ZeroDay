@@ -20,13 +20,14 @@ export interface FakeListing {
   featured?: boolean;
 }
 
-export interface FakeGroup {
+export interface FakeCommunity {
   id: string;
   name: string;
   slug: string;
   description: string;
   memberCount: number;
   category: string;
+  type?: string;
   avatar?: string;
   isJoined?: boolean;
 }
@@ -195,7 +196,7 @@ export const listings: FakeListing[] = [
   },
 ];
 
-export const groups: FakeGroup[] = [
+export const communities: FakeCommunity[] = [
   {
     id: '1',
     name: 'Frontend Developers Azerbaijan',
@@ -295,7 +296,7 @@ export const forumTopics: FakeForumTopic[] = [
 export const stats = [
   { label: 'Aktiv elan', value: '120+', icon: '📋' },
   { label: 'Könüllü', value: '2,400+', icon: '🤝' },
-  { label: 'Qrup', value: '45+', icon: '👥' },
+  { label: 'İcma', value: '45+', icon: '👥' },
   { label: 'Şəhər', value: '18+', icon: '📍' },
 ];
 
@@ -306,8 +307,8 @@ export const features = [
     icon: '📝',
   },
   {
-    title: 'Qruplara qoşul',
-    description: 'Maraqlarına uyğun qruplara qoşul, birlikdə öyrən və böyü.',
+    title: 'İcmalara qoşul',
+    description: 'Maraqlarına uyğun icmalara qoşul, birlikdə öyrən və böyü.',
     icon: '👥',
   },
   {

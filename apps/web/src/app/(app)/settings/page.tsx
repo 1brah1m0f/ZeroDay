@@ -7,7 +7,9 @@ import { api } from '@/lib/api';
 export default function SettingsPage() {
   const { user, accessToken, setAuth } = useAuthStore();
   const [displayName, setDisplayName] = useState(user?.displayName || '');
-  const [bio, setBio] = useState('');
+  const [bio, setBio] = useState(user?.bio || '');
+  const [skills, setSkills] = useState((user?.skills || []).join(', '));
+  const [interests, setInterests] = useState((user?.interests || []).join(', '));
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
 
@@ -15,11 +17,16 @@ export default function SettingsPage() {
     try {
       setSaving(true);
       const res = await api.put(
-        '/profiles',
-        { displayName, bio },
+        '/users/profile',
+        { 
+          displayName, 
+          bio,
+          skills: skills.split(',').map((s: string) => s.trim()).filter(Boolean),
+          interests: interests.split(',').map((s: string) => s.trim()).filter(Boolean)
+        },
         { headers: { Authorization: `Bearer ${accessToken}` } },
       );
-      setAuth(res.data, accessToken!, '');
+      setAuth({ ...user, ...res.data }, accessToken!, '');
       setMessage('Tənzimləmələr saxlanıldı!');
     } catch {
       setMessage('Xəta baş verdi');
@@ -59,6 +66,30 @@ export default function SettingsPage() {
               rows={3}
               className="w-full rounded-lg border px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
               placeholder="Özünüz haqqında qısa məlumat..."
+            />
+          </div>
+
+          <div>
+            <label className="mb-1 block text-sm font-medium text-gray-700">
+              Bacarıqlar (vergüllə ayırın)
+            </label>
+            <input
+              value={skills}
+              onChange={(e) => setSkills(e.target.value)}
+              placeholder="Məsələn: React, Node.js, Dizayn"
+              className="w-full rounded-lg border px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            />
+          </div>
+
+          <div>
+            <label className="mb-1 block text-sm font-medium text-gray-700">
+              Maraqlar (vergüllə ayırın)
+            </label>
+            <input
+              value={interests}
+              onChange={(e) => setInterests(e.target.value)}
+              placeholder="Məsələn: İdman, Mütaliə, Səyahət"
+              className="w-full rounded-lg border px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
             />
           </div>
 

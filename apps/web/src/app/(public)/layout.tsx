@@ -7,7 +7,7 @@ import { useAuthStore } from '@/lib/store';
 
 const navLinks = [
   { href: '/listings', label: 'Elanlar' },
-  { href: '/groups', label: 'Qruplar' },
+  { href: '/communities', label: 'İcmalar' },
   { href: '/forum', label: 'Forum' },
 ];
 

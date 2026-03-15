@@ -8,8 +8,13 @@ export const api = axios.create({
   },
 });
 
-// Interceptor: auto-attach token
+// Interceptor: auto-attach token + handle FormData
 api.interceptors.request.use((config) => {
+  // For FormData, let the browser set Content-Type with boundary
+  if (config.data instanceof FormData) {
+    delete config.headers['Content-Type'];
+  }
+
   if (typeof window !== 'undefined') {
     const stored = localStorage.getItem('kutlewe-auth');
     if (stored) {

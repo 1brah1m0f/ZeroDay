@@ -12,32 +12,41 @@ datasource db {
 // ─── Models ───────────────────────────────────────────────────────────────────
 
 model User {
-  id          String   @id @default(cuid())
-  username    String   @unique
-  email       String   @unique
-  password    String
-  displayName String
-  avatarUrl   String?
-  bio         String?
-  role        String   @default("USER")     // USER | MODERATOR | ADMIN
-  isVerified  Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id             String   @id @default(cuid())
+  username       String   @unique
+  email          String   @unique
+  password       String
+  displayName    String
+  avatarUrl      String?
+  bio            String?
+  phoneNumber    String?
+  skills         String   @default("[]")       // JSON array of skill strings
+  interests      String   @default("[]")       // JSON array of interest strings
+  activityPoints Int      @default(0)
+  role           String   @default("USER")     // USER | MODERATOR | ADMIN
+  isVerified     Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
   // Relations
-  listings       Listing[]
-  groups         GroupMember[]
-  ownedGroups    Group[]         @relation("GroupOwner")
-  forumTopics    ForumTopic[]
-  forumComments  ForumComment[]
-  userBadges     UserBadge[]
-  experiences    Experience[]
-  sentMessages   ChatMessage[]
-  conversations  ConversationParticipant[]
-  givenVotes     ForumVote[]
-  applications   Application[]  @relation("Applicant")
-  receivedApps   Application[]  @relation("ListingOwner")
-  savedListings  SavedListing[]
+  listings            Listing[]
+  communities          CommunityMember[]
+  ownedCommunities     Community[]         @relation("CommunityOwner")
+  forumTopics          ForumTopic[]
+  forumComments        ForumComment[]
+  userBadges           UserBadge[]
+  experiences          Experience[]
+  sentMessages         ChatMessage[]
+  conversations        ConversationParticipant[]
+  givenVotes           ForumVote[]
+  applications         Application[]  @relation("Applicant")
+  receivedApps         Application[]  @relation("ListingOwner")
+  savedListings        SavedListing[]
+  announcements        Announcement[]
+  sentInvitations      Invitation[]   @relation("InvitationSender")
+  receivedInvitations  Invitation[]   @relation("InvitationReceiver")
+  eventParticipations  EventParticipation[]
+  channelMessages      ChannelMessage[]
 
   @@map("users")
 }
@@ -64,35 +73,145 @@ model Listing {
   @@map("listings")
 }
 
-model Group {
+// ─── Community (İcma) System ─────────────────────────────────────────────────
+
+model Community {
   id          String   @id @default(cuid())
   name        String
   slug        String   @unique
   description String
-  privacy     String   @default("PUBLIC")   // PUBLIC | PRIVATE | INVITE_ONLY
+  type        String   @default("TECH")      // TECH | EDUCATION | NONPROFIT | BUSINESS | OTHER
+  privacy     String   @default("PUBLIC")    // PUBLIC | PRIVATE | INVITE_ONLY
   coverUrl    String?
   avatarUrl   String?
   tags        String   @default("[]")
+  settings    String   @default("{}")        // JSON settings object
   ownerId     String
-  owner       User     @relation("GroupOwner", fields: [ownerId], references: [id])
-  members     GroupMember[]
+  owner       User     @relation("CommunityOwner", fields: [ownerId], references: [id])
+  members     CommunityMember[]
+  announcements Announcement[]
+  events      Event[]
+  channels    Channel[]
+  invitations Invitation[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  @@map("groups")
+  @@map("communities")
 }
 
-model GroupMember {
+model CommunityMember {
+  userId      String
+  communityId String
+  role        String   @default("MEMBER")    // OWNER | ADMIN | MODERATOR | MEMBER
+  joinedAt    DateTime @default(now())
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+
+  @@id([userId, communityId])
+  @@map("community_members")
+}
+
+model Announcement {
+  id          String    @id @default(cuid())
+  title       String
+  body        String
+  isPinned    Boolean   @default(false)
+  communityId String
+  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  authorId    String
+  author      User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([communityId])
+  @@map("announcements")
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  location    String?
+  startDate   DateTime
+  endDate     DateTime?
+  maxAttendees Int?
+  communityId String
+  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  participants EventParticipation[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([communityId])
+  @@map("events")
+}
+
+model EventParticipation {
+  id       String   @id @default(cuid())
   userId   String
-  groupId  String
-  role     String   @default("MEMBER")    // OWNER | ADMIN | MEMBER
-  joinedAt DateTime @default(now())
+  eventId  String
+  status   String   @default("REGISTERED")  // REGISTERED | ATTENDED | CANCELLED
   user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  group    Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  event    Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  joinedAt DateTime @default(now())
 
-  @@id([userId, groupId])
-  @@map("group_members")
+  @@unique([userId, eventId])
+  @@map("event_participations")
 }
+
+model Invitation {
+  id          String    @id @default(cuid())
+  communityId String
+  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  senderId    String
+  sender      User      @relation("InvitationSender", fields: [senderId], references: [id], onDelete: Cascade)
+  receiverId  String
+  receiver    User      @relation("InvitationReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
+  message     String?
+  channel     String    @default("PLATFORM")  // PLATFORM | EMAIL | SMS
+  status      String    @default("PENDING")   // PENDING | ACCEPTED | REJECTED | EXPIRED
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([communityId, receiverId])
+  @@index([receiverId])
+  @@map("invitations")
+}
+
+// ─── Discord-style Channel System ────────────────────────────────────────────
+
+model Channel {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String
+  description String?
+  type        String    @default("TEXT")      // TEXT | EVENT | ANNOUNCEMENT
+  category    String?                          // Channel category grouping
+  isDefault   Boolean   @default(false)
+  communityId String
+  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  messages    ChannelMessage[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([communityId, slug])
+  @@index([communityId])
+  @@map("channels")
+}
+
+model ChannelMessage {
+  id        String   @id @default(cuid())
+  body      String
+  senderId  String
+  sender    User     @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  channelId String
+  channel   Channel  @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([channelId, createdAt])
+  @@map("channel_messages")
+}
+
+// ─── Forum ───────────────────────────────────────────────────────────────────
 
 model ForumTopic {
   id           String         @id @default(cuid())
@@ -147,6 +266,8 @@ model ForumVote {
   @@map("forum_votes")
 }
 
+// ─── Direct Messaging ────────────────────────────────────────────────────────
+
 model Conversation {
   id           String                   @id @default(cuid())
   participants ConversationParticipant[]
@@ -181,6 +302,8 @@ model ChatMessage {
   @@index([conversationId, createdAt])
   @@map("chat_messages")
 }
+
+// ─── Badges & Experience ─────────────────────────────────────────────────────
 
 model Badge {
   id          String      @id @default(cuid())
@@ -221,6 +344,8 @@ model Experience {
 
   @@map("experiences")
 }
+
+// ─── Applications & Saved ────────────────────────────────────────────────────
 
 model Application {
   id          String   @id @default(cuid())

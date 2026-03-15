@@ -11,6 +11,16 @@ import { Server, Socket } from 'socket.io';
 import { ChatService } from './chat.service';
 import { WS_EVENTS } from '@kutlewe/shared';
 
+// Extended WS events for community channels
+const CHANNEL_EVENTS = {
+  JOIN_CHANNEL: 'channel:join',
+  LEAVE_CHANNEL: 'channel:leave',
+  SEND_CHANNEL_MSG: 'channel:message:send',
+  NEW_CHANNEL_MSG: 'channel:message:new',
+  CHANNEL_TYPING_START: 'channel:typing:start',
+  CHANNEL_TYPING_STOP: 'channel:typing:stop',
+};
+
 @WebSocketGateway({
   cors: { origin: '*' },
   namespace: 'chat',
@@ -38,6 +48,8 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       this.server.emit(WS_EVENTS.USER_OFFLINE, { userId });
     }
   }
+
+  // ─── Direct Messages ──────────────────────────────────────────────────────
 
   @SubscribeMessage(WS_EVENTS.SEND_MESSAGE)
   async handleMessage(
@@ -84,5 +96,72 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
         conversationId: data.conversationId,
       });
     }
+  }
+
+  // ─── Channel (Discord-style) Messages ─────────────────────────────────────
+
+  @SubscribeMessage(CHANNEL_EVENTS.JOIN_CHANNEL)
+  handleJoinChannel(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() data: { channelId: string },
+  ) {
+    client.join(`channel:${data.channelId}`);
+    return { joined: data.channelId };
+  }
+
+  @SubscribeMessage(CHANNEL_EVENTS.LEAVE_CHANNEL)
+  handleLeaveChannel(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() data: { channelId: string },
+  ) {
+    client.leave(`channel:${data.channelId}`);
+    return { left: data.channelId };
+  }
+
+  @SubscribeMessage(CHANNEL_EVENTS.SEND_CHANNEL_MSG)
+  async handleChannelMessage(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() data: { channelId: string; body: string },
+  ) {
+    const userId = client.handshake.query.userId as string;
+
+    // Use REST endpoint logic via the communities service (imported through chat service)
+    // For now, broadcast to channel room
+    const message = {
+      id: Date.now().toString(),
+      body: data.body,
+      senderId: userId,
+      channelId: data.channelId,
+      createdAt: new Date().toISOString(),
+    };
+
+    // Broadcast to all users in the channel room
+    this.server.to(`channel:${data.channelId}`).emit(CHANNEL_EVENTS.NEW_CHANNEL_MSG, message);
+
+    return message;
+  }
+
+  @SubscribeMessage(CHANNEL_EVENTS.CHANNEL_TYPING_START)
+  handleChannelTypingStart(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() data: { channelId: string },
+  ) {
+    const userId = client.handshake.query.userId as string;
+    client.to(`channel:${data.channelId}`).emit(CHANNEL_EVENTS.CHANNEL_TYPING_START, {
+      userId,
+      channelId: data.channelId,
+    });
+  }
+
+  @SubscribeMessage(CHANNEL_EVENTS.CHANNEL_TYPING_STOP)
+  handleChannelTypingStop(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() data: { channelId: string },
+  ) {
+    const userId = client.handshake.query.userId as string;
+    client.to(`channel:${data.channelId}`).emit(CHANNEL_EVENTS.CHANNEL_TYPING_STOP, {
+      userId,
+      channelId: data.channelId,
+    });
   }
 }

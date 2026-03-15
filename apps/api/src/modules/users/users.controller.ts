@@ -1,5 +1,5 @@
-import { Controller, Get, Param, UseGuards, Put, Body } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { Controller, Get, Param, UseGuards, Put, Body, Query } from '@nestjs/common';
+import { ApiTags, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
@@ -22,6 +22,23 @@ export class UsersController {
   @ApiBearerAuth()
   updateProfile(@CurrentUser('id') userId: string, @Body() dto: UpdateProfileDto) {
     return this.usersService.updateProfile(userId, dto);
+  }
+
+  @Get('search')
+  @ApiQuery({ name: 'q', required: false })
+  @ApiQuery({ name: 'skills', required: false, type: [String] })
+  @ApiQuery({ name: 'minPoints', required: false, type: Number })
+  searchUsers(
+    @Query('q') q?: string,
+    @Query('skills') skills?: string | string[],
+    @Query('minPoints') minPoints?: string,
+  ) {
+    const parsedSkills = typeof skills === 'string' ? skills.split(',') : skills;
+    return this.usersService.searchUsers({
+      q,
+      skills: parsedSkills,
+      minPoints: minPoints ? parseInt(minPoints) : undefined,
+    });
   }
 
   @Get(':username')

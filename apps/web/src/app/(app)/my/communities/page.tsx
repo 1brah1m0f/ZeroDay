@@ -7,34 +7,33 @@ import { useAuthStore } from '@/lib/store';
 
 const groupIcons = ['👥', '💻', '🎨', '📊', '🚀', '🤝', '🌍', '🎓'];
 
-export default function MyGroupsPage() {
+export default function MyCommunitiesPage() {
   const { accessToken } = useAuthStore();
-  const [groups, setGroups] = useState<any[]>([]);
+  const [communities, setCommunities] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!accessToken) return;
-    const fetchMyGroups = async () => {
+    const fetchMyCommunities = async () => {
       try {
-        // Fetch all groups then filter by membership (backend doesn't have /groups/mine yet)
-        const res = await api.get('/groups', { params: { limit: 100 } });
-        setGroups(res.data?.data || res.data || []);
+        const res = await api.get('/communities', { params: { limit: 100 } });
+        setCommunities(res.data?.data || res.data || []);
       } catch {
-        setGroups([]);
+        setCommunities([]);
       } finally {
         setLoading(false);
       }
     };
-    fetchMyGroups();
+    fetchMyCommunities();
   }, [accessToken]);
 
   const handleLeave = async (slug: string) => {
-    if (!confirm('Qrupdan çıxmaq istədiyinizə əminsiniz?')) return;
+    if (!confirm('İcmadan çıxmaq istədiyinizə əminsiniz?')) return;
     try {
-      await api.delete(`/groups/${slug}/leave`, {
+      await api.delete(`/communities/${slug}/leave`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
-      setGroups(prev => prev.filter(g => g.slug !== slug));
+      setCommunities(prev => prev.filter(g => g.slug !== slug));
     } catch (err: any) {
       alert(err.response?.data?.message || 'Xəta baş verdi');
     }
@@ -43,51 +42,51 @@ export default function MyGroupsPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Qruplarım</h1>
+        <h1 className="text-2xl font-bold text-gray-900">İcmalarım</h1>
         <Link
-          href="/my/groups/new"
+          href="/my/communities/new"
           className="rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700"
         >
-          + Yeni Qrup
+          + Yeni İcma
         </Link>
       </div>
 
       {loading ? (
         <div className="py-12 text-center text-gray-400">Yüklənir...</div>
-      ) : groups.length === 0 ? (
+      ) : communities.length === 0 ? (
         <div className="rounded-xl border bg-white p-12 text-center">
-          <p className="text-gray-400">Hələ bir qrupa üzv deyilsiniz</p>
-          <Link href="/groups" className="mt-3 inline-block text-primary-600 text-sm font-medium hover:underline">
-            Qrupları kəşf et →
+          <p className="text-gray-400">Hələ bir icmaya üzv deyilsiniz</p>
+          <Link href="/communities" className="mt-3 inline-block text-primary-600 text-sm font-medium hover:underline">
+            İcmaları kəşf et →
           </Link>
         </div>
       ) : (
         <div className="space-y-3">
-          {groups.map((group, i) => {
+          {communities.map((community, i) => {
             let tags: string[] = [];
-            try { tags = JSON.parse(group.tags || '[]'); } catch { }
+            try { tags = JSON.parse(community.tags || '[]'); } catch { }
             return (
-              <div key={group.id} className="flex items-center justify-between rounded-xl border bg-white p-4 shadow-sm">
+              <div key={community.id} className="flex items-center justify-between rounded-xl border bg-white p-4 shadow-sm">
                 <div className="flex items-center gap-4">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-50 text-lg">
                     {groupIcons[i % groupIcons.length]}
                   </div>
                   <div>
-                    <Link href={`/groups/${group.slug}`} className="font-medium text-gray-900 hover:text-primary-600 transition">
-                      {group.name}
+                    <Link href={`/communities/${community.slug}`} className="font-medium text-gray-900 hover:text-primary-600 transition">
+                      {community.name}
                     </Link>
-                    <p className="text-sm text-gray-500">{group.memberCount || 0} üzv</p>
+                    <p className="text-sm text-gray-500">{community.memberCount || 0} üzv</p>
                   </div>
                 </div>
                 <div className="flex gap-2">
                   <Link
-                    href={`/groups/${group.slug}`}
+                    href={`/communities/${community.slug}`}
                     className="rounded-lg border px-3 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-50 transition"
                   >
                     Bax
                   </Link>
                   <button
-                    onClick={() => handleLeave(group.slug)}
+                    onClick={() => handleLeave(community.slug)}
                     className="rounded-lg border border-red-200 px-3 py-1.5 text-xs font-medium text-red-500 hover:bg-red-50 transition"
                   >
                     Çıx
