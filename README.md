@@ -1,19 +1,11 @@
 # ComTech 🤝
 
-[![API Docs](https://img.shields.io/badge/API-Swagger-green)](your-api-url/api/docs)
-
 **ComTech** — Azərbaycanlılar üçün ictimai platforma. Elanlar, qruplar, forum, chat, badge sistemi və profil idarəetməsi bir yerdə.
 
 > **Frontend:** [localhost:3000](http://localhost:3000)
 > **API Docs:** [localhost:4000/api/docs](http://localhost:4000/api/docs)
 
 ---
-
-## 🌍 Live Demo
-
-- **Web:** https://your-web-url.example
-- **API:** https://your-api-url.example/api/v1
-- **Swagger:** https://your-api-url.example/api/docs
 
 ---
 

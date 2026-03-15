@@ -3,25 +3,25 @@ version: '3.8'
 services:
   db:
     image: postgres:16-alpine
-    container_name: kutlewe-db
+    container_name: comtech-db
     restart: unless-stopped
     environment:
-      POSTGRES_USER: kutlewe
-      POSTGRES_PASSWORD: kutlewe_pass
-      POSTGRES_DB: kutlewe_db
+      POSTGRES_USER: comtech
+      POSTGRES_PASSWORD: comtech_pass
+      POSTGRES_DB: comtech_db
     ports:
       - '5432:5432'
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U kutlewe']
+      test: ['CMD-SHELL', 'pg_isready -U comtech']
       interval: 10s
       timeout: 5s
       retries: 5
 
   redis:
     image: redis:7-alpine
-    container_name: kutlewe-redis
+    container_name: comtech-redis
     restart: unless-stopped
     ports:
       - '6379:6379'
@@ -32,7 +32,7 @@ services:
     build:
       context: ..
       dockerfile: apps/api/Dockerfile
-    container_name: kutlewe-api
+    container_name: comtech-api
     restart: unless-stopped
     ports:
       - '4000:4000'
@@ -48,7 +48,7 @@ services:
     build:
       context: ..
       dockerfile: apps/web/Dockerfile
-    container_name: kutlewe-web
+    container_name: comtech-web
     restart: unless-stopped
     ports:
       - '3000:3000'
@@ -59,7 +59,7 @@ services:
 
   nginx:
     image: nginx:alpine
-    container_name: kutlewe-nginx
+    container_name: comtech-nginx
     restart: unless-stopped
     ports:
       - '80:80'

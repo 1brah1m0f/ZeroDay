@@ -24,10 +24,10 @@ function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary-600 text-sm font-bold text-white">
-            K
+            C
           </div>
           <span className="text-lg font-bold text-stone-800">
-            Kütlə<span className="text-primary-600">We</span>
+            ComTech
           </span>
         </Link>
 
@@ -156,10 +156,10 @@ function Footer() {
           <div>
             <div className="flex items-center gap-2">
               <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary-600 text-sm font-bold text-white">
-                K
+                C
               </div>
               <span className="text-lg font-bold text-stone-800">
-                Kütlə<span className="text-primary-600">We</span>
+                ComTech
               </span>
             </div>
             <p className="mt-3 text-sm leading-relaxed text-stone-500">
