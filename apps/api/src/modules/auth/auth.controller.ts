@@ -12,14 +12,14 @@ export class AuthController {
 
   @Post('register')
   @UseGuards(ThrottlerGuard)
-  @Throttle('short')
+  @Throttle({ short: { limit: 10, ttl: 1000 } })
   register(@Body() dto: RegisterDto) {
     return this.authService.register(dto);
   }
 
   @Post('login')
   @UseGuards(ThrottlerGuard)
-  @Throttle('short')
+  @Throttle({ short: { limit: 10, ttl: 1000 } })
   login(@Body() dto: LoginDto) {
     return this.authService.login(dto);
   }
@@ -33,7 +33,7 @@ export class AuthController {
 
   @Post('refresh')
   @UseGuards(ThrottlerGuard, JwtAuthGuard)
-  @Throttle('short')
+  @Throttle({ short: { limit: 10, ttl: 1000 } })
   @ApiBearerAuth()
   refresh(@Req() req: any) {
     return this.authService.refresh(req.user.id);
