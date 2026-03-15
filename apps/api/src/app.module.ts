@@ -26,8 +26,12 @@ import { PrismaModule } from './prisma/prisma.module';
       envFilePath: '../../.env',
     }),
     ThrottlerModule.forRoot({
-      ttl: 60000,
-      limit: 10,
+      throttlers: [
+        {
+          ttl: 60000,
+          limit: 10,
+        },
+      ],
     }),
     PrismaModule,
     AuthModule,
