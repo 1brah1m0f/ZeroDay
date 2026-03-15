@@ -19,6 +19,7 @@ out
 npm-debug.log*
 pnpm-debug.log*
 yarn-debug.log*
+build_log.txt
 
 # Turbo cache
 .turbo
@@ -56,3 +57,6 @@ tmp/
 
 # Next.js telemetry
 .next/cache
+
+# Demo accounts note (local only)
+DEMO_ACCOUNTS.md
