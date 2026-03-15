@@ -1,0 +1,43 @@
+:global(.skeleton) {
+  @apply relative overflow-hidden rounded-xl bg-stone-100;
+}
+
+:global(.skeleton::after) {
+  content: '';
+  @apply absolute inset-0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite linear;
+}
+
+:global(.card) {
+  @apply rounded-2xl border border-stone-200/60 bg-white shadow-card transition-all duration-200;
+}
+
+:global(.card-interactive) {
+  @apply card cursor-pointer hover:shadow-card-hover hover:-translate-y-0.5 active:translate-y-0 active:shadow-card;
+}
+
+:global(.badge) {
+  @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium;
+}
+
+:global(.badge-primary) {
+  @apply badge bg-primary-50 text-primary-700;
+}
+
+:global(.badge-accent) {
+  @apply badge bg-accent-50 text-accent-700;
+}
+
+:global(.badge-neutral) {
+  @apply badge bg-stone-100 text-stone-600;
+}
+
+:global(.badge-success) {
+  @apply badge bg-success-50 text-green-700;
+}
+
+:global(.badge-warning) {
+  @apply badge bg-warning-50 text-amber-700;
+}
