@@ -1,12 +1,13 @@
 import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateListingDto, UpdateListingDto } from './dto';
+import type { PaginatedResponse } from '@comtech/shared';
 
 @Injectable()
 export class ListingsService {
   constructor(private prisma: PrismaService) { }
 
-  async findAll(params: { page?: number | string; limit?: number | string; category?: string; q?: string }) {
+  async findAll(params: { page?: number | string; limit?: number | string; category?: string; q?: string }): Promise<PaginatedResponse<any>> {
     const page = Math.max(1, parseInt(String(params.page || '1'), 10));
     const limit = Math.min(100, Math.max(1, parseInt(String(params.limit || '20'), 10)));
     const { category, q } = params;
