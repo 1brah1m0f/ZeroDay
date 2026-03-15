@@ -25,18 +25,10 @@ import { PrismaModule } from './prisma/prisma.module';
       isGlobal: true,
       envFilePath: '../../.env',
     }),
-    ThrottlerModule.forRoot([
-      {
-        name: 'short',
-        ttl: 1000,
-        limit: 10,
-      },
-      {
-        name: 'long',
-        ttl: 60000,
-        limit: 100,
-      },
-    ]),
+    ThrottlerModule.forRoot({
+      ttl: 60000,
+      limit: 10,
+    }),
     PrismaModule,
     AuthModule,
     UsersModule,
