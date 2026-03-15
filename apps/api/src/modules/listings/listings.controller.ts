@@ -9,6 +9,7 @@ import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
 
 @ApiTags('listings')
+@ApiBearerAuth()
 @Controller('listings')
 export class ListingsController {
   constructor(private readonly listingsService: ListingsService) { }

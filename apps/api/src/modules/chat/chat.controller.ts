@@ -6,9 +6,9 @@ import { CurrentUser } from '../../common/decorators/current-user.decorator';
 import { ChatMessagesQueryDto, SendMessageDto, SendConversationMessageDto } from './dto';
 
 @ApiTags('chat')
+@ApiBearerAuth()
 @Controller('chat')
 @UseGuards(JwtAuthGuard)
-@ApiBearerAuth()
 export class ChatController {
   constructor(private readonly chatService: ChatService) { }
 

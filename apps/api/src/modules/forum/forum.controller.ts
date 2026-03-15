@@ -8,6 +8,7 @@ import { CurrentUser } from '../../common/decorators/current-user.decorator';
 import { TopicsQueryDto, CreateTopicDto, CreateCommentDto, VoteDto } from './dto';
 
 @ApiTags('forum')
+@ApiBearerAuth()
 @Controller('forum')
 export class ForumController {
   constructor(private readonly forumService: ForumService) {}

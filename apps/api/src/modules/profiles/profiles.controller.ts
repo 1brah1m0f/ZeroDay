@@ -8,9 +8,9 @@ import { CurrentUser } from '../../common/decorators/current-user.decorator';
 import { UpdateProfileDto, CreateExperienceDto, UpdateExperienceDto } from './dto';
 
 @ApiTags('profiles')
+@ApiBearerAuth()
 @Controller('profiles')
 @UseGuards(JwtAuthGuard)
-@ApiBearerAuth()
 export class ProfilesController {
   constructor(private readonly profilesService: ProfilesService) {}
 

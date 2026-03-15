@@ -30,6 +30,7 @@ import {
   const MIN_FILES = 1;
   
   @ApiTags('media')
+  @ApiBearerAuth()
   @Controller('media')
   export class MediaController {
     constructor(private readonly mediaService: MediaService) {}

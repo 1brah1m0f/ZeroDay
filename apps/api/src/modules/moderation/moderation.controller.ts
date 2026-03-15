@@ -6,9 +6,9 @@ import { RolesGuard } from '../../common/guards/roles.guard';
 import { Roles } from '../../common/decorators/roles.decorator';
 
 @ApiTags('moderation')
+@ApiBearerAuth()
 @Controller('moderation')
 @UseGuards(JwtAuthGuard, RolesGuard)
-@ApiBearerAuth()
 export class ModerationController {
   constructor(private readonly moderationService: ModerationService) {}
 

@@ -25,6 +25,7 @@ import {
 } from './dto';
 
 @ApiTags('communities')
+@ApiBearerAuth()
 @Controller('communities')
 export class CommunitiesController {
   constructor(private readonly communitiesService: CommunitiesService) {}

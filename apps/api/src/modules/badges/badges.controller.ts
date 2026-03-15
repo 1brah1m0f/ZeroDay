@@ -1,8 +1,9 @@
 import { Controller, Get, Param } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { BadgesService } from './badges.service';
 
 @ApiTags('badges')
+@ApiBearerAuth()
 @Controller('badges')
 export class BadgesController {
   constructor(private readonly badgesService: BadgesService) {}
