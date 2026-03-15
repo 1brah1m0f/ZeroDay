@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import '@/styles/globals.css';
 
 export const metadata: Metadata = {
-  title: 'KütləWe — Azərbaycanın təhsil və könüllülük platforması',
+  title: 'ComTech — Azərbaycanın ictimai platforması',
   description: 'Elanlar paylaş, qruplara qoşul, forumda müzakirə et — birlikdə daha güclüyük.',
 };
 

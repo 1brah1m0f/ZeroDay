@@ -205,7 +205,7 @@ export default function ListingDetailPage() {
                 {listing.description}
               </p>
               <p className="mt-4 text-stone-600 leading-relaxed">
-                Bu elan KütləWe platformasında paylaşılıb. Maraqlananlar aşağıdakı düymə vasitəsilə müraciət edə bilər.
+                Bu elan ComTech platformasında paylaşılıb. Maraqlananlar aşağıdakı düymə vasitəsilə müraciət edə bilər.
                 Ətraflı məlumat almaq üçün elan sahibi ilə əlaqə saxlaya bilərsiniz.
               </p>
             </div>

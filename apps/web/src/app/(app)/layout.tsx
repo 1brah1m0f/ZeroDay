@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store';
 import { useEffect, useState } from 'react';
-import { APP_NAME } from '@kutlewe/shared';
+import { APP_NAME } from '@comtech/shared';
 
 const sidebarLinks = [
   { href: '/dashboard', label: 'Panel' },

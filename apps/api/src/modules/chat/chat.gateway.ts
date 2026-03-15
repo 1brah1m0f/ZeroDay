@@ -9,7 +9,7 @@ import {
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { ChatService } from './chat.service';
-import { WS_EVENTS } from '@kutlewe/shared';
+import { WS_EVENTS } from '@comtech/shared';
 
 // Extended WS events for community channels
 const CHANNEL_EVENTS = {

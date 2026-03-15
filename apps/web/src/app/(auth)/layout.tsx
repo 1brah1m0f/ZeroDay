@@ -10,16 +10,16 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
             K
           </div>
           <span className="text-lg font-bold text-white">
-            Kütlə<span className="text-accent-300">We</span>
+            Com<span className="text-accent-300">Tech</span>
           </span>
         </Link>
         <div>
           <h2 className="text-3xl font-bold text-white">Birlikdə öyrən,<br />birlikdə böyü.</h2>
           <p className="mt-3 max-w-md text-primary-100/70">
-            Azərbaycanın ən böyük təhsil və könüllülük icmasına qoşul. Elanlar paylaş, qruplara qatıl, forumda müzakirə et.
+            Azərbaycanın ictimai icmasına qoşul. Elanlar paylaş, qruplara qatıl, forumda müzakirə et.
           </p>
         </div>
-        <p className="text-sm text-primary-200/50">&copy; {new Date().getFullYear()} KütləWe</p>
+        <p className="text-sm text-primary-200/50">&copy; {new Date().getFullYear()} ComTech</p>
       </div>
 
       {/* Right side — form */}
@@ -32,7 +32,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
                 K
               </div>
               <span className="text-lg font-bold text-stone-800">
-                Kütlə<span className="text-primary-600">We</span>
+                Com<span className="text-primary-600">Tech</span>
               </span>
             </Link>
           </div>

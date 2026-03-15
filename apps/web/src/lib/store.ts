@@ -33,7 +33,7 @@ export const useAuthStore = create<AuthState>()(
       logout: () => set({ user: null, accessToken: null, refreshToken: null }),
     }),
     {
-      name: 'kutlewe-auth',
+      name: 'comtech-auth',
     },
   ),
 );

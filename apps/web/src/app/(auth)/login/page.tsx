@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LoginSchema, type LoginDto } from '@kutlewe/shared';
+import { LoginSchema, type LoginDto } from '@comtech/shared';
 import { api } from '@/lib/api';
 import { useAuthStore } from '@/lib/store';
 import { Button } from '@/components/Button';

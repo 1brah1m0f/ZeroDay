@@ -16,7 +16,7 @@ api.interceptors.request.use((config) => {
   }
 
   if (typeof window !== 'undefined') {
-    const stored = localStorage.getItem('kutlewe-auth');
+    const stored = localStorage.getItem('comtech-auth');
     if (stored) {
       try {
         const { state } = JSON.parse(stored);

@@ -220,7 +220,7 @@ function Footer() {
         </div>
 
         <div className="mt-10 border-t border-stone-100 pt-6 text-center text-sm text-stone-400">
-          &copy; {new Date().getFullYear()} KütləWe. Bütün hüquqlar qorunur.
+          &copy; {new Date().getFullYear()} ComTech. Bütün hüquqlar qorunur.
         </div>
       </div>
     </footer>

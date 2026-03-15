@@ -1,5 +1,5 @@
 {
-  "name": "@kutlewe/api",
+  "name": "@comtech/api",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -15,7 +15,7 @@
     "seed": "ts-node --skip-project prisma/seed.ts"
   },
   "dependencies": {
-    "@kutlewe/shared": "workspace:*",
+    "@comtech/shared": "workspace:*",
     "@nestjs/common": "^10.3.9",
     "@nestjs/config": "^3.2.2",
     "@nestjs/core": "^10.3.9",

@@ -255,7 +255,7 @@ export default function HomePage() {
       <section className="section">
         <div className="container-app">
           <div className="mx-auto mb-12 max-w-2xl text-center">
-            <h2 className="text-2xl font-bold text-stone-800 sm:text-3xl">Niyə KütləWe?</h2>
+            <h2 className="text-2xl font-bold text-stone-800 sm:text-3xl">Niyə ComTech?</h2>
             <p className="mt-2 text-stone-500">
               Cəmiyyətə dəyər qatmağın ən asan yolu
             </p>

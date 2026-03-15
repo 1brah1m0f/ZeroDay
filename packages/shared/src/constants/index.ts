@@ -1,5 +1,5 @@
-export const APP_NAME = 'KütləWe';
-export const APP_DESCRIPTION = 'Azərbaycanlıların ictimai platforma';
+export const APP_NAME = 'ComTech';
+export const APP_DESCRIPTION = 'Azərbaycanlılar üçün ictimai platforma';
 
 export const LISTING_CATEGORIES = [
   { value: 'VOLUNTEER', label: 'Könüllülük' },

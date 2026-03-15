@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { RegisterSchema, type RegisterDto } from '@kutlewe/shared';
+import { RegisterSchema, type RegisterDto } from '@comtech/shared';
 import { api } from '@/lib/api';
 import { useAuthStore } from '@/lib/store';
 import { Button } from '@/components/Button';
