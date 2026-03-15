@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
 import '@/styles/globals.css';
-import '@/styles/components.module.css';
-import '@/styles/utilities.module.css';
 
 export const metadata: Metadata = {
   title: 'ComTech — Azərbaycanın ictimai platforması',

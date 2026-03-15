@@ -34,3 +34,63 @@ body {
 :focus-visible {
   @apply outline-2 outline-offset-2 outline-primary-500;
 }
+
+@layer components {
+  .card {
+    @apply rounded-2xl border border-stone-200/60 bg-white shadow-card transition-all duration-200;
+  }
+
+  .card-interactive {
+    @apply rounded-2xl border border-stone-200/60 bg-white shadow-card transition-all duration-200 cursor-pointer hover:shadow-card-hover hover:-translate-y-0.5 active:translate-y-0 active:shadow-card;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium;
+  }
+
+  .badge-primary {
+    @apply badge bg-primary-50 text-primary-700;
+  }
+
+  .badge-accent {
+    @apply badge bg-accent-50 text-accent-700;
+  }
+
+  .badge-neutral {
+    @apply badge bg-stone-100 text-stone-600;
+  }
+
+  .badge-success {
+    @apply badge bg-success-50 text-green-700;
+  }
+
+  .badge-warning {
+    @apply badge bg-warning-50 text-amber-700;
+  }
+}
+
+@layer utilities {
+  .section {
+    @apply py-16 md:py-24;
+  }
+
+  .container-app {
+    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .stagger > * {
+    @apply animate-fade-up;
+    animation-fill-mode: both;
+  }
+
+  .stagger > *:nth-child(1) { animation-delay: 0ms; }
+  .stagger > *:nth-child(2) { animation-delay: 60ms; }
+  .stagger > *:nth-child(3) { animation-delay: 120ms; }
+  .stagger > *:nth-child(4) { animation-delay: 180ms; }
+  .stagger > *:nth-child(5) { animation-delay: 240ms; }
+  .stagger > *:nth-child(6) { animation-delay: 300ms; }
+  .stagger > *:nth-child(7) { animation-delay: 360ms; }
+  .stagger > *:nth-child(8) { animation-delay: 420ms; }
+  .stagger > *:nth-child(9) { animation-delay: 480ms; }
+  .stagger > *:nth-child(10) { animation-delay: 540ms; }
+}
