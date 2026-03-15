@@ -114,15 +114,10 @@ pnpm dev
 
 ## 🔑 Demo Hesabları
 
-Seed işlətdikdən sonra bu hesablarla daxil ola bilərsiniz:
+Demo hesabların məlumatları repo-da saxlanmır.
 
-| E-poçt | Şifrə | Rol |
-|---|---|---|
-| demo@comtech.az | demo1234 | İstifadəçi |
-| kenan@comtech.az | kenan1234 | Frontend Dev |
-| leyla@comtech.az | leyla1234 | Dizayner |
-| orxan@comtech.az | orxan1234 | Backend Dev |
-| nigar@comtech.az | nigar1234 | Data Scientist |
+- `SEED_DEMO_PASSWORD` dəyərini `.env` faylında təyin edin.
+- Hesab siyahısı üçün **DEMO_ACCOUNTS.md (commit olunmur)** faylına baxın.
 
 ---
 

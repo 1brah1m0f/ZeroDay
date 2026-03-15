@@ -1,5 +1,6 @@
 const { PrismaClient } = require('@prisma/client');
 const bcrypt = require('bcryptjs');
+require('dotenv').config({ path: '../../../.env' });
 
 const prisma = new PrismaClient();
 
@@ -29,14 +30,18 @@ async function main() {
     await prisma.badge.deleteMany();
     await prisma.user.deleteMany();
 
-    const hash = (pw) => bcrypt.hashSync(pw, 10);
+    const demoPassword = process.env.SEED_DEMO_PASSWORD;
+    if (!demoPassword) {
+        throw new Error('SEED_DEMO_PASSWORD is required to seed demo users');
+    }
+    const demoPasswordHash = await bcrypt.hash(demoPassword, 10);
 
     // ─── Users ──────────────────────────────────────────
-    const demo = await prisma.user.create({ data: { username: 'demo', email: 'demo@kutlewe.az', password: hash('demo1234'), displayName: 'Demo İstifadəçi', bio: 'Bu hesab demo məqsədilə yaradılıb. KütləWe platformasını kəşf edin 🚀', role: 'USER' } });
-    const kenan = await prisma.user.create({ data: { username: 'kenan', email: 'kenan@kutlewe.az', password: hash('kenan1234'), displayName: 'Kənan Əhmədov', bio: 'Frontend Developer | React & Next.js | Bakı, Azərbaycan 🇦🇿', role: 'USER' } });
-    const leyla = await prisma.user.create({ data: { username: 'leyla', email: 'leyla@kutlewe.az', password: hash('leyla1234'), displayName: 'Leyla Həsənova', bio: 'UX/UI Dizayner | BHOS məzunu | Könüllülük fəaliyyəti ilə maraqlanıram', role: 'USER' } });
-    const orxan = await prisma.user.create({ data: { username: 'orxan', email: 'orxan@kutlewe.az', password: hash('orxan1234'), displayName: 'Orxan Məmmədov', bio: 'Backend Developer | NestJS & Prisma | Açıq mənbə layihələrə töhfə verirəm', role: 'USER' } });
-    const nigar = await prisma.user.create({ data: { username: 'nigar', email: 'nigar@kutlewe.az', password: hash('nigar1234'), displayName: 'Nigar Quliyeva', bio: 'Data Scientist | Python & ML | UNICEF Azərbaycan könüllüsü', role: 'USER' } });
+    const demo = await prisma.user.create({ data: { username: 'demo', email: 'demo@kutlewe.az', password: demoPasswordHash, displayName: 'Demo İstifadəçi', bio: 'Bu hesab demo məqsədilə yaradılıb. KütləWe platformasını kəşf edin 🚀', role: 'USER' } });
+    const kenan = await prisma.user.create({ data: { username: 'kenan', email: 'kenan@kutlewe.az', password: demoPasswordHash, displayName: 'Kənan Əhmədov', bio: 'Frontend Developer | React & Next.js | Bakı, Azərbaycan 🇦🇿', role: 'USER' } });
+    const leyla = await prisma.user.create({ data: { username: 'leyla', email: 'leyla@kutlewe.az', password: demoPasswordHash, displayName: 'Leyla Həsənova', bio: 'UX/UI Dizayner | BHOS məzunu | Könüllülük fəaliyyəti ilə maraqlanıram', role: 'USER' } });
+    const orxan = await prisma.user.create({ data: { username: 'orxan', email: 'orxan@kutlewe.az', password: demoPasswordHash, displayName: 'Orxan Məmmədov', bio: 'Backend Developer | NestJS & Prisma | Açıq mənbə layihələrə töhfə verirəm', role: 'USER' } });
+    const nigar = await prisma.user.create({ data: { username: 'nigar', email: 'nigar@kutlewe.az', password: demoPasswordHash, displayName: 'Nigar Quliyeva', bio: 'Data Scientist | Python & ML | UNICEF Azərbaycan könüllüsü', role: 'USER' } });
     console.log('✅ 5 istifadəçi yaradıldı');
 
     // ─── Badges ─────────────────────────────────────────
@@ -232,12 +237,7 @@ async function main() {
     console.log('✅ 6 forum mövzusu yaradıldı');
 
     console.log('\n🎉 Seed tamamlandı!\n');
-    console.log('Demo hesabları:');
-    console.log('  📧 demo@kutlewe.az   / demo1234');
-    console.log('  📧 kenan@kutlewe.az  / kenan1234');
-    console.log('  📧 leyla@kutlewe.az  / leyla1234');
-    console.log('  📧 orxan@kutlewe.az  / orxan1234');
-    console.log('  📧 nigar@kutlewe.az  / nigar1234');
+    console.log('Demo hesabları yaradıldı. Parol SEED_DEMO_PASSWORD ilə təyin olunur.');
 }
 
 main()

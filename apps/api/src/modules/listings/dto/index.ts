@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsEnum, IsArray, MinLength, MaxLength, IsNumber } from 'class-validator';
+import { IsString, IsOptional, IsEnum, IsArray, MinLength, MaxLength, IsNumber, IsIn } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 
@@ -82,4 +82,10 @@ export class UpdateListingDto {
   @IsString({ each: true })
   @IsOptional()
   images?: string[];
+}
+
+export class UpdateApplicationStatusDto {
+  @IsString()
+  @IsIn(['PENDING', 'ACCEPTED', 'REJECTED'])
+  status: string;
 }

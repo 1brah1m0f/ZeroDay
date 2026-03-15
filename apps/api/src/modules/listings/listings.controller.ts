@@ -4,7 +4,7 @@ import {
 } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { ListingsService } from './listings.service';
-import { CreateListingDto, UpdateListingDto, GetListingsDto } from './dto';
+import { CreateListingDto, UpdateListingDto, GetListingsDto, UpdateApplicationStatusDto } from './dto';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
 
@@ -83,9 +83,9 @@ export class ListingsController {
   updateApplicationStatus(
     @Param('appId') appId: string,
     @CurrentUser('id') userId: string,
-    @Body('status') status: string,
+    @Body() dto: UpdateApplicationStatusDto,
   ) {
-    return this.listingsService.updateApplicationStatus(appId, userId, status);
+    return this.listingsService.updateApplicationStatus(appId, userId, dto.status);
   }
 
   @Delete('applications/:appId')
