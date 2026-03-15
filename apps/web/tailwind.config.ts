@@ -1,5 +1,6 @@
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+import type { Config } from 'tailwindcss';
+
+const config: Config = {
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     extend: {
@@ -48,28 +49,28 @@ module.exports = {
         display: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'system-ui', 'sans-serif'],
       },
       fontSize: {
-        'hero':    ['3.5rem',  { lineHeight: '1.08', letterSpacing: '-0.025em', fontWeight: '800' }],
-        'display': ['2.5rem',  { lineHeight: '1.12', letterSpacing: '-0.02em', fontWeight: '700' }],
-        'heading': ['1.875rem', { lineHeight: '1.2', letterSpacing: '-0.015em', fontWeight: '700' }],
-        'title':   ['1.25rem', { lineHeight: '1.4', letterSpacing: '-0.01em', fontWeight: '600' }],
+        hero:    ['3.5rem',  { lineHeight: '1.08', letterSpacing: '-0.025em', fontWeight: '800' }],
+        display: ['2.5rem',  { lineHeight: '1.12', letterSpacing: '-0.02em', fontWeight: '700' }],
+        heading: ['1.875rem', { lineHeight: '1.2', letterSpacing: '-0.015em', fontWeight: '700' }],
+        title:   ['1.25rem', { lineHeight: '1.4', letterSpacing: '-0.01em', fontWeight: '600' }],
       },
       borderRadius: {
-        'xl':  '12px',
+        xl:  '12px',
         '2xl': '16px',
         '3xl': '20px',
         '4xl': '24px',
       },
       boxShadow: {
-        'card':       '0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.02)',
+        card:       '0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.02)',
         'card-hover': '0 8px 24px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.04)',
-        'elevated':   '0 12px 32px -4px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.03)',
-        'modal':      '0 20px 60px -12px rgba(0,0,0,0.15)',
+        elevated:   '0 12px 32px -4px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.03)',
+        modal:      '0 20px 60px -12px rgba(0,0,0,0.15)',
         'inner-glow': 'inset 0 1px 0 rgba(255,255,255,0.05)',
       },
       spacing: {
-        '18': '4.5rem',
-        '22': '5.5rem',
-        '30': '7.5rem',
+        18: '4.5rem',
+        22: '5.5rem',
+        30: '7.5rem',
       },
       maxWidth: {
         '8xl': '88rem',
@@ -79,7 +80,7 @@ module.exports = {
         'fade-up':  'fadeUp 0.5s ease-out forwards',
         'slide-up': 'slideUp 0.3s ease-out',
         'scale-in': 'scaleIn 0.2s ease-out',
-        'shimmer':  'shimmer 2s infinite linear',
+        shimmer:  'shimmer 2s infinite linear',
         'pulse-soft': 'pulseSoft 2s infinite ease-in-out',
       },
       keyframes: {
@@ -94,3 +95,5 @@ module.exports = {
   },
   plugins: [],
 };
+
+export default config;
