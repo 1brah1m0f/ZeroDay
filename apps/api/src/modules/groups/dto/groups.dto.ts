@@ -50,7 +50,7 @@ export class CommunityDetailsQueryDto {
   userId?: string;
 }
 
-export class CreateCommunityDto {
+export class CreateGroupDto {
   @IsString()
   @MinLength(3)
   @MaxLength(80)
@@ -77,7 +77,7 @@ export class CreateCommunityDto {
   tags?: string[];
 }
 
-export class UpdateCommunityDto {
+export class UpdateGroupDto {
   @IsOptional()
   @IsString()
   @MinLength(3)

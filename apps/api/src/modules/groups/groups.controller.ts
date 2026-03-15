@@ -8,8 +8,8 @@ import { CurrentUser } from '../../common/decorators/current-user.decorator';
 import {
   CommunitiesQueryDto,
   CommunityDetailsQueryDto,
-  CreateCommunityDto,
-  UpdateCommunityDto,
+  CreateGroupDto,
+  UpdateGroupDto,
   MembersQueryDto,
   UpdateMemberRoleDto,
   AnnouncementsQueryDto,
@@ -44,14 +44,14 @@ export class CommunitiesController {
   @Post()
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  create(@CurrentUser('id') userId: string, @Body() dto: CreateCommunityDto) {
+  create(@CurrentUser('id') userId: string, @Body() dto: CreateGroupDto) {
     return this.communitiesService.create(userId, dto);
   }
 
   @Put(':slug')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  update(@Param('slug') slug: string, @CurrentUser('id') userId: string, @Body() dto: UpdateCommunityDto) {
+  update(@Param('slug') slug: string, @CurrentUser('id') userId: string, @Body() dto: UpdateGroupDto) {
     return this.communitiesService.update(slug, userId, dto);
   }
 
