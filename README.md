@@ -205,8 +205,8 @@ SMTP_FROM=noreply@comtech.az
 | Root | pnpm dev | Bütün servisləri dev rejimdə başladır |
 | Root | pnpm build | Bütün paketləri build edir |
 | Root | pnpm lint | Lint işləyir |
-| API | pnpm --filter @kutlewe/api dev | NestJS dev |
-| Web | pnpm --filter @kutlewe/web dev | Next.js dev |
+| API | pnpm --filter @comtech/api dev | NestJS dev |
+| Web | pnpm --filter @comtech/web dev | Next.js dev |
 
 ---
 

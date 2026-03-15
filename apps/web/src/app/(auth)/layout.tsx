@@ -7,7 +7,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       <div className="hidden w-1/2 bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 p-12 lg:flex lg:flex-col lg:justify-between">
         <Link href="/" className="flex items-center gap-2">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/20 text-sm font-bold text-white">
-            K
+            C
           </div>
           <span className="text-lg font-bold text-white">
             Com<span className="text-accent-300">Tech</span>
@@ -29,7 +29,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           <div className="mb-8 text-center lg:hidden">
             <Link href="/" className="inline-flex items-center gap-2">
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary-600 text-sm font-bold text-white">
-                K
+                C
               </div>
               <span className="text-lg font-bold text-stone-800">
                 Com<span className="text-primary-600">Tech</span>

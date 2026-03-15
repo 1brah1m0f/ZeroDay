@@ -1,4 +1,4 @@
-/* ─── Fake Data for KutleWe ─── Azerbaijani education / volunteer platform ─── */
+/* ─── Fake Data for ComTech ─── Azerbaijani community platform ─── */
 
 export interface FakeListing {
   id: string;
@@ -194,6 +194,74 @@ export const listings: FakeListing[] = [
     deadline: '2025-03-20T23:59:00Z',
     applicants: 55,
   },
+  {
+    id: '11',
+    title: 'Karyera workshop — CV və müsahibə',
+    description:
+      'Junior və mid səviyyə üçün CV və müsahibə simulyasiyası. HR feedback ilə 2 saatlıq sessiya.',
+    category: 'career',
+    type: 'EVENT',
+    location: 'Bakı, ComTech Hub',
+    tags: ['CV', 'Müsahibə', 'Karyera'],
+    author: { name: 'Sevinc Əliyeva', username: 'sevinc_a', avatar: undefined },
+    createdAt: '2025-02-22T09:30:00Z',
+    deadline: '2025-03-10T23:59:00Z',
+    applicants: 41,
+  },
+  {
+    id: '12',
+    title: 'Backend fundamentals study group',
+    description:
+      'Node.js, NestJS və SQL əsasları üzrə həftəlik study group. Praktik task-lar və code review.',
+    category: 'tech',
+    type: 'LISTING',
+    location: 'Onlayn',
+    tags: ['Node.js', 'NestJS', 'SQL'],
+    author: { name: 'Rauf Məmmədli', username: 'rauf_m', avatar: undefined },
+    createdAt: '2025-02-23T18:00:00Z',
+    applicants: 26,
+  },
+  {
+    id: '13',
+    title: 'Dizayn portfolionu yenilə',
+    description:
+      'UI/UX dizaynerlər üçün portfolio audit sessiyası. 1:1 feedback və nümunə case study-lər.',
+    category: 'design',
+    type: 'LISTING',
+    location: 'Onlayn',
+    tags: ['Portfolio', 'UI/UX', 'Feedback'],
+    author: { name: 'Aysel Qasımova', username: 'aysel_q', avatar: undefined },
+    createdAt: '2025-02-24T12:00:00Z',
+    applicants: 19,
+  },
+  {
+    id: '14',
+    title: 'ComTech icma görüşü — networking',
+    description:
+      'Ayda bir dəfə keçirilən icma görüşü. Təcrübə paylaşımı, mini-talks və networking.',
+    category: 'event',
+    type: 'EVENT',
+    location: 'Bakı, Landmark',
+    tags: ['Networking', 'İcma', 'Tədbir'],
+    author: { name: 'Elşad Rzayev', username: 'elshad_r', avatar: undefined },
+    createdAt: '2025-02-25T17:00:00Z',
+    deadline: '2025-03-05T23:59:00Z',
+    applicants: 63,
+    featured: true,
+  },
+  {
+    id: '15',
+    title: 'Mobil tətbiq ideyaları — brainstorming',
+    description:
+      'Yeni mobil tətbiq ideyaları üçün açıq brainstorming session. Biznes modeli və MVP planı.',
+    category: 'tech',
+    type: 'EVENT',
+    location: 'Onlayn',
+    tags: ['MVP', 'Startap', 'Brainstorm'],
+    author: { name: 'Nihad Hüseynli', username: 'nihad_h', avatar: undefined },
+    createdAt: '2025-02-26T20:00:00Z',
+    applicants: 34,
+  },
 ];
 
 export const communities: FakeCommunity[] = [
@@ -235,6 +303,38 @@ export const communities: FakeCommunity[] = [
     slug: 'ekologiya',
     description: 'Ətraf mühitin qorunması və dayanıqlı inkişaf layihələri üzrə icma.',
     memberCount: 96,
+    category: 'volunteer',
+  },
+  {
+    id: '6',
+    name: 'ComTech Product Builders',
+    slug: 'comtech-product-builders',
+    description: 'Məhsul düşüncəsi, PM alətləri və product strategy müzakirələri.',
+    memberCount: 184,
+    category: 'career',
+  },
+  {
+    id: '7',
+    name: 'AI & Data Azerbaijan',
+    slug: 'ai-data-az',
+    description: 'ML, Data Science və AI xəbərləri və praktika qrupları.',
+    memberCount: 302,
+    category: 'tech',
+  },
+  {
+    id: '8',
+    name: 'Design Circle Baku',
+    slug: 'design-circle-baku',
+    description: 'UI/UX dizaynerlər üçün ilham, portfolio və case study paylaşımı.',
+    memberCount: 143,
+    category: 'design',
+  },
+  {
+    id: '9',
+    name: 'ComTech Volunteers',
+    slug: 'comtech-volunteers',
+    description: 'Sosial layihələr və tədbirlərdə birgə fəaliyyət icması.',
+    memberCount: 221,
     category: 'volunteer',
   },
 ];
@@ -290,6 +390,46 @@ export const forumTopics: FakeForumTopic[] = [
     replyCount: 35,
     createdAt: '2025-02-10T08:00:00Z',
     tags: ['IT', 'Maaş', 'Karyera'],
+  },
+  {
+    id: '6',
+    title: 'ComTech-də ilk elanımı necə effektiv yazım?',
+    body: 'Elan başlığı və təsviri üçün hansı format daha çox müraciət gətirir? Təcrübənizi paylaşın.',
+    author: { name: 'Fidan Əhmədli', username: 'fidan_a' },
+    upvotes: 19,
+    replyCount: 7,
+    createdAt: '2025-02-23T10:00:00Z',
+    tags: ['Elan', 'Tips', 'ComTech'],
+  },
+  {
+    id: '7',
+    title: 'Startap ideyanı necə validate etmək olar?',
+    body: 'MVP, survey və user interview üçün effektiv metodlar hansılardır? Qısa roadmap paylaşın.',
+    author: { name: 'Samir Qurbanov', username: 'samir_q' },
+    upvotes: 27,
+    replyCount: 14,
+    createdAt: '2025-02-22T13:00:00Z',
+    tags: ['Startap', 'MVP', 'Biznes'],
+  },
+  {
+    id: '8',
+    title: 'UI/UX portfolio üçün ən yaxşı nümunələr?',
+    body: 'Yeni başlayan dizaynerlər üçün portfolio strukturu necə olmalıdır? Linklər varsa paylaşın.',
+    author: { name: 'Aysu Məcidova', username: 'aysu_m' },
+    upvotes: 12,
+    replyCount: 5,
+    createdAt: '2025-02-21T18:00:00Z',
+    tags: ['Dizayn', 'Portfolio', 'UI/UX'],
+  },
+  {
+    id: '9',
+    title: 'Remote iş tapmaq üçün ən faydalı resurslar',
+    body: 'LinkedIn-dən başqa hansı platformalar effektivdir? Filtrlər və axtarış taktikaları?',
+    author: { name: 'Kamran Əliyev', username: 'kamran_a' },
+    upvotes: 23,
+    replyCount: 11,
+    createdAt: '2025-02-20T16:00:00Z',
+    tags: ['Remote', 'Karyera', 'Resurslar'],
   },
 ];
 

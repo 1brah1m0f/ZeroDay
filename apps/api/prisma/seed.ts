@@ -35,11 +35,11 @@ async function main() {
 
     // ─── Users ───────────────────────────────────────────────────────────────────
     const users = await Promise.all([
-        prisma.user.create({ data: { username: 'demo', email: 'demo@kutlewe.az', password: demoPasswordHash, displayName: 'Demo İstifadəçi', bio: 'Bu hesab demo məqsədilə yaradılıb. KütləWe platformasını kəşf edin 🚀', role: 'USER' } }),
-        prisma.user.create({ data: { username: 'kenan', email: 'kenan@kutlewe.az', password: demoPasswordHash, displayName: 'Kənan Əhmədov', bio: 'Frontend Developer | React & Next.js | Bakı, Azərbaycan 🇦🇿', role: 'USER' } }),
-        prisma.user.create({ data: { username: 'leyla', email: 'leyla@kutlewe.az', password: demoPasswordHash, displayName: 'Leyla Həsənova', bio: 'UX/UI Dizayner | BHOS məzunu | Könüllülük fəaliyyəti ilə maraqlanıram', role: 'USER' } }),
-        prisma.user.create({ data: { username: 'orxan', email: 'orxan@kutlewe.az', password: demoPasswordHash, displayName: 'Orxan Məmmədov', bio: 'Backend Developer | NestJS & Prisma | Açıq mənbə layihələrə töhfə verirəm', role: 'USER' } }),
-        prisma.user.create({ data: { username: 'nigar', email: 'nigar@kutlewe.az', password: demoPasswordHash, displayName: 'Nigar Quliyeva', bio: 'Data Scientist | Python & ML | UNICEF Azərbaycan könüllüsü', role: 'USER' } }),
+        prisma.user.create({ data: { username: 'demo', email: 'demo@comtech.az', password: demoPasswordHash, displayName: 'Demo İstifadəçi', bio: 'Bu hesab demo məqsədilə yaradılıb. ComTech platformasını kəşf edin 🚀', role: 'USER' } }),
+        prisma.user.create({ data: { username: 'kenan', email: 'kenan@comtech.az', password: demoPasswordHash, displayName: 'Kənan Əhmədov', bio: 'Frontend Developer | React & Next.js | Bakı, Azərbaycan 🇦🇿', role: 'USER' } }),
+        prisma.user.create({ data: { username: 'leyla', email: 'leyla@comtech.az', password: demoPasswordHash, displayName: 'Leyla Həsənova', bio: 'UX/UI Dizayner | BHOS məzunu | Könüllülük fəaliyyəti ilə maraqlanıram', role: 'USER' } }),
+        prisma.user.create({ data: { username: 'orxan', email: 'orxan@comtech.az', password: demoPasswordHash, displayName: 'Orxan Məmmədov', bio: 'Backend Developer | NestJS & Prisma | Açıq mənbə layihələrə töhfə verirəm', role: 'USER' } }),
+        prisma.user.create({ data: { username: 'nigar', email: 'nigar@comtech.az', password: demoPasswordHash, displayName: 'Nigar Quliyeva', bio: 'Data Scientist | Python & ML | UNICEF Azərbaycan könüllüsü', role: 'USER' } }),
     ]);
 
     const [demo, kenan, leyla, orxan, nigar] = users;
@@ -97,7 +97,7 @@ async function main() {
         { authorId: demo.id, title: 'Karyera Məsləhəti — İT sahəsindəkilər üçün', description: 'IT sahəsindəkilər üçün pulsuz karyera məsləhəti. CV yoxlanışı, müsahib hazırlığı, yol xəritəsi. Hər şənbə saat 11:00-da.', category: 'VOLUNTEER', tags: JSON.stringify(['karyera', 'cv', 'mentorluq', 'it']), status: 'ACTIVE' },
         { authorId: demo.id, title: 'Vəkil müşaviri — Hüquqi yardım', description: 'Gənclərin hüquqları mövzusunda aylıq pulsuz hüquqi məsləhət verirəm. İş müqavilələri, istehlakçı hüquqları, mülkiyyət məsələləri.', category: 'SERVICES', tags: JSON.stringify(['hüquq', 'məsləhət', 'pulsuz']), status: 'ACTIVE' },
         { authorId: kenan.id, title: 'Azərbaycan Texnologiya Festivalı — Könüllü', description: 'AzTech Fest 2025 üçün könüllü axtarışı. 2000+ iştirakçı, 50+ məruzəçi. Qeydiyyat, media, texniki sahələrdə kömək.', category: 'EVENTS', tags: JSON.stringify(['texfest', 'könüllülük', 'texnologiya', 'festival']), status: 'ACTIVE' },
-        { authorId: leyla.id, title: 'Freelance Qrafik Dizayner', description: 'Logo, banner, sosial media dizaynı üzrə freelance xidmət təklif edirəm. Portfolio: kutlewe.az/u/leyla', category: 'SERVICES', tags: JSON.stringify(['freelance', 'dizayn', 'logo', 'brending']), status: 'ACTIVE' },
+        { authorId: leyla.id, title: 'Freelance Qrafik Dizayner', description: 'Logo, banner, sosial media dizaynı üzrə freelance xidmət təklif edirəm. Portfolio: comtech.az/u/leyla', category: 'SERVICES', tags: JSON.stringify(['freelance', 'dizayn', 'logo', 'brending']), status: 'ACTIVE' },
     ];
 
     const createdListings = await Promise.all(listingsData.map(l => prisma.listing.create({ data: l })));

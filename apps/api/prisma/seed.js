@@ -37,11 +37,11 @@ async function main() {
     const demoPasswordHash = await bcrypt.hash(demoPassword, 10);
 
     // ─── Users ──────────────────────────────────────────
-    const demo = await prisma.user.create({ data: { username: 'demo', email: 'demo@kutlewe.az', password: demoPasswordHash, displayName: 'Demo İstifadəçi', bio: 'Bu hesab demo məqsədilə yaradılıb. KütləWe platformasını kəşf edin 🚀', role: 'USER' } });
-    const kenan = await prisma.user.create({ data: { username: 'kenan', email: 'kenan@kutlewe.az', password: demoPasswordHash, displayName: 'Kənan Əhmədov', bio: 'Frontend Developer | React & Next.js | Bakı, Azərbaycan 🇦🇿', role: 'USER' } });
-    const leyla = await prisma.user.create({ data: { username: 'leyla', email: 'leyla@kutlewe.az', password: demoPasswordHash, displayName: 'Leyla Həsənova', bio: 'UX/UI Dizayner | BHOS məzunu | Könüllülük fəaliyyəti ilə maraqlanıram', role: 'USER' } });
-    const orxan = await prisma.user.create({ data: { username: 'orxan', email: 'orxan@kutlewe.az', password: demoPasswordHash, displayName: 'Orxan Məmmədov', bio: 'Backend Developer | NestJS & Prisma | Açıq mənbə layihələrə töhfə verirəm', role: 'USER' } });
-    const nigar = await prisma.user.create({ data: { username: 'nigar', email: 'nigar@kutlewe.az', password: demoPasswordHash, displayName: 'Nigar Quliyeva', bio: 'Data Scientist | Python & ML | UNICEF Azərbaycan könüllüsü', role: 'USER' } });
+    const demo = await prisma.user.create({ data: { username: 'demo', email: 'demo@comtech.az', password: demoPasswordHash, displayName: 'Demo İstifadəçi', bio: 'Bu hesab demo məqsədilə yaradılıb. ComTech platformasını kəşf edin 🚀', role: 'USER' } });
+    const kenan = await prisma.user.create({ data: { username: 'kenan', email: 'kenan@comtech.az', password: demoPasswordHash, displayName: 'Kənan Əhmədov', bio: 'Frontend Developer | React & Next.js | Bakı, Azərbaycan 🇦🇿', role: 'USER' } });
+    const leyla = await prisma.user.create({ data: { username: 'leyla', email: 'leyla@comtech.az', password: demoPasswordHash, displayName: 'Leyla Həsənova', bio: 'UX/UI Dizayner | BHOS məzunu | Könüllülük fəaliyyəti ilə maraqlanıram', role: 'USER' } });
+    const orxan = await prisma.user.create({ data: { username: 'orxan', email: 'orxan@comtech.az', password: demoPasswordHash, displayName: 'Orxan Məmmədov', bio: 'Backend Developer | NestJS & Prisma | Açıq mənbə layihələrə töhfə verirəm', role: 'USER' } });
+    const nigar = await prisma.user.create({ data: { username: 'nigar', email: 'nigar@comtech.az', password: demoPasswordHash, displayName: 'Nigar Quliyeva', bio: 'Data Scientist | Python & ML | UNICEF Azərbaycan könüllüsü', role: 'USER' } });
     console.log('✅ 5 istifadəçi yaradıldı');
 
     // ─── Badges ─────────────────────────────────────────
@@ -93,7 +93,7 @@ async function main() {
     const l9 = await prisma.listing.create({ data: { authorId: demo.id, title: 'Karyera Məsləhəti — İT sahəsindəkilər', description: 'IT sahəsindəkilər üçün pulsuz karyera məsləhəti. CV yoxlanışı, müsahib hazırlığı. Hər şənbə saat 11:00.', category: 'VOLUNTEER', tags: JSON.stringify(['karyera', 'cv', 'mentorluq']), status: 'ACTIVE' } });
     const l10 = await prisma.listing.create({ data: { authorId: demo.id, title: 'Hüquqi məsləhət — Pulsuz', description: 'Gənclərin hüquqları mövzusunda aylıq pulsuz hüquqi məsləhət. İş müqavilələri, istehlakçı hüquqları.', category: 'SERVICES', tags: JSON.stringify(['hüquq', 'məsləhət', 'pulsuz']), status: 'ACTIVE' } });
     const l11 = await prisma.listing.create({ data: { authorId: kenan.id, title: 'AzTech Festivalı — Könüllü', description: 'AzTech Fest 2025 üçün könüllü axtarışı. 2000+ iştirakçı, 50+ məruzəçi. Qeydiyyat, media, texniki sahələrdə kömək.', category: 'EVENTS', tags: JSON.stringify(['texfest', 'könüllülük', 'festival']), status: 'ACTIVE' } });
-    const l12 = await prisma.listing.create({ data: { authorId: leyla.id, title: 'Freelance Qrafik Dizayner', description: 'Logo, banner, sosial media dizaynı üzrə freelance xidmət. Portfolio mövcuddur.', category: 'SERVICES', tags: JSON.stringify(['freelance', 'dizayn', 'logo']), status: 'ACTIVE' } });
+    const l12 = await prisma.listing.create({ data: { authorId: leyla.id, title: 'Freelance Qrafik Dizayner', description: 'Logo, banner, sosial media dizaynı üzrə freelance xidmət. Portfolio: comtech.az/u/leyla', category: 'SERVICES', tags: JSON.stringify(['freelance', 'dizayn', 'logo']), status: 'ACTIVE' } });
     console.log('✅ 12 elan yaradıldı');
 
     // ─── Applications ───────────────────────────────────
