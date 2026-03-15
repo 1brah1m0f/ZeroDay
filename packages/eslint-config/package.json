@@ -1,5 +1,5 @@
 {
-  "module": "@comtech/eslint-config",
+  "name": "@comtech/eslint-config",
   "version": "0.0.1",
   "private": true,
   "main": "index.js"

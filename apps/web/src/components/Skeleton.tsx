@@ -1,11 +1,12 @@
 import { cn } from '@/lib/utils';
+import styles from './Skeleton.module.css';
 
 interface SkeletonProps {
   className?: string;
 }
 
 export function Skeleton({ className }: SkeletonProps) {
-  return <div className={cn('skeleton animate-pulse rounded-xl bg-stone-100', className)} />;
+  return <div className={cn(styles.skeleton, 'animate-pulse rounded-xl bg-stone-100', className)} />;
 }
 
 export function CardSkeleton() {
