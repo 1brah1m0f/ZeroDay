@@ -27,6 +27,10 @@ export class TopicsQueryDto {
 
   @IsOptional()
   @IsString()
+  cursor?: string;
+
+  @IsOptional()
+  @IsString()
   q?: string;
 
   @IsOptional()

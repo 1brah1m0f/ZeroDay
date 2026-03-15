@@ -6,11 +6,10 @@ import slugify from 'slugify';
 export class ForumService {
   constructor(private prisma: PrismaService) { }
 
-  async findAllTopics(params: { page?: number | string; limit?: number | string; q?: string; tag?: string }) {
+  async findAllTopics(params: { page?: number | string; limit?: number | string; q?: string; tag?: string; cursor?: string }) {
     const page = Math.max(1, parseInt(String(params.page || '1'), 10));
     const limit = Math.min(100, Math.max(1, parseInt(String(params.limit || '20'), 10)));
-    const { q, tag } = params;
-    const skip = (page - 1) * limit;
+    const { q, tag, cursor } = params;
 
     const where: any = {};
     if (q) {
@@ -21,12 +20,13 @@ export class ForumService {
     }
     if (tag) where.tags = { contains: tag };
 
-    const [data, total] = await Promise.all([
+    const [rows, total] = await Promise.all([
       this.prisma.forumTopic.findMany({
         where,
-        skip,
-        take: limit,
-        orderBy: [{ isPinned: 'desc' }, { createdAt: 'desc' }],
+        take: limit + 1,
+        cursor: cursor ? { id: String(cursor) } : undefined,
+        skip: cursor ? 1 : (page - 1) * limit,
+        orderBy: [{ isPinned: 'desc' }, { createdAt: 'desc' }, { id: 'desc' }],
         include: {
           author: { select: { id: true, username: true, displayName: true, avatarUrl: true } },
           _count: { select: { comments: true } },
@@ -35,6 +35,10 @@ export class ForumService {
       }),
       this.prisma.forumTopic.count({ where }),
     ]);
+
+    const hasMore = rows.length > limit;
+    const data = hasMore ? rows.slice(0, limit) : rows;
+    const nextCursor = hasMore ? data[data.length - 1]?.id : null;
 
     return {
       data: data.map((t) => {
@@ -46,7 +50,14 @@ export class ForumService {
           upvotes,
         };
       }),
-      meta: { total, page, limit, totalPages: Math.ceil(total / limit) },
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+        hasMore,
+        nextCursor,
+      } as any,
     };
   }
 

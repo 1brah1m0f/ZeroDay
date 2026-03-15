@@ -15,6 +15,10 @@ export class GetListingsDto {
 
   @IsOptional()
   @IsString()
+  cursor?: string;
+
+  @IsOptional()
+  @IsString()
   category?: string;
 
   @IsOptional()

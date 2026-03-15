@@ -7,11 +7,10 @@ import type { PaginatedResponse } from '@comtech/shared';
 export class ListingsService {
   constructor(private prisma: PrismaService) { }
 
-  async findAll(params: { page?: number | string; limit?: number | string; category?: string; q?: string }): Promise<PaginatedResponse<any>> {
+  async findAll(params: { page?: number | string; limit?: number | string; category?: string; q?: string; cursor?: string }): Promise<PaginatedResponse<any>> {
     const page = Math.max(1, parseInt(String(params.page || '1'), 10));
     const limit = Math.min(100, Math.max(1, parseInt(String(params.limit || '20'), 10)));
-    const { category, q } = params;
-    const skip = (page - 1) * limit;
+    const { category, q, cursor } = params;
 
     const where: any = { status: 'ACTIVE' };
     if (category) where.category = category;
@@ -22,12 +21,13 @@ export class ListingsService {
       ];
     }
 
-    const [data, total] = await Promise.all([
+    const [rows, total] = await Promise.all([
       this.prisma.listing.findMany({
         where,
-        skip,
-        take: limit,
-        orderBy: { createdAt: 'desc' },
+        take: limit + 1,
+        cursor: cursor ? { id: String(cursor) } : undefined,
+        skip: cursor ? 1 : (page - 1) * limit,
+        orderBy: [{ createdAt: 'desc' }, { id: 'desc' }],
         include: {
           author: {
             select: { id: true, username: true, displayName: true, avatarUrl: true },
@@ -37,9 +37,20 @@ export class ListingsService {
       this.prisma.listing.count({ where }),
     ]);
 
+    const hasMore = rows.length > limit;
+    const data = hasMore ? rows.slice(0, limit) : rows;
+    const nextCursor = hasMore ? data[data.length - 1]?.id : null;
+
     return {
       data,
-      meta: { total, page, limit, totalPages: Math.ceil(total / limit) },
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+        hasMore,
+        nextCursor,
+      } as any,
     };
   }
 
