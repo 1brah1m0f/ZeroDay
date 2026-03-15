@@ -75,7 +75,7 @@ infra/
 
 ```bash
 # 1. Klonlayın
-git clone <repo-url>
+git clone https://github.com/1brah1m0f/ZeroDay.git
 cd ComTech
 
 # 2. Environment faylı yaradın
