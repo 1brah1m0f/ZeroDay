@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { randomBytes } from 'crypto';
 import { config } from 'dotenv';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const bcrypt = require('bcryptjs');
@@ -27,9 +28,10 @@ async function main() {
     await prisma.badge.deleteMany();
     await prisma.user.deleteMany();
 
-    const demoPassword = process.env.SEED_DEMO_PASSWORD;
+    let demoPassword = process.env.SEED_DEMO_PASSWORD?.trim();
     if (!demoPassword) {
-        throw new Error('SEED_DEMO_PASSWORD is required to seed demo users');
+        demoPassword = randomBytes(16).toString('hex');
+        console.log(`🔐 SEED_DEMO_PASSWORD avtomatik yaradıldı: ${demoPassword}`);
     }
     const demoPasswordHash = await bcrypt.hash(demoPassword, 10);
 
