@@ -3,6 +3,7 @@ import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { ChatService } from './chat.service';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
+import { ChatMessagesQueryDto, SendMessageDto, SendConversationMessageDto } from './dto';
 
 @ApiTags('chat')
 @Controller('chat')
@@ -20,19 +21,15 @@ export class ChatController {
   getMessages(
     @Param('id') conversationId: string,
     @CurrentUser('id') userId: string,
-    @Query('page') page?: string,
-    @Query('limit') limit?: string,
+    @Query() query: ChatMessagesQueryDto,
   ) {
-    return this.chatService.getMessages(conversationId, userId, {
-      page: page ? parseInt(page, 10) : undefined,
-      limit: limit ? parseInt(limit, 10) : undefined,
-    });
+    return this.chatService.getMessages(conversationId, userId, query);
   }
 
   @Post('messages')
   sendMessage(
     @CurrentUser('id') userId: string,
-    @Body() dto: { recipientId: string; body: string },
+    @Body() dto: SendMessageDto,
   ) {
     return this.chatService.sendMessage(userId, dto.recipientId, dto.body);
   }
@@ -41,7 +38,7 @@ export class ChatController {
   sendMessageToConversation(
     @Param('id') conversationId: string,
     @CurrentUser('id') userId: string,
-    @Body() dto: { body: string },
+    @Body() dto: SendConversationMessageDto,
   ) {
     return this.chatService.sendMessageToConversation(userId, conversationId, dto.body);
   }
